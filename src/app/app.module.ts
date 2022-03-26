@@ -16,6 +16,7 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
 import { DomainsComponent } from './pages/domains/domains.component';
 import { SubdomainsComponent } from './pages/subdomains/subdomains.component';
 import { ControlsComponent } from './pages/controls/controls.component';
+import { NewTaskComponent } from './pages/new-task/new-task.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ControlsComponent } from './pages/controls/controls.component';
     ForgotPasswordComponent,
     DomainsComponent,
     SubdomainsComponent,
-    ControlsComponent
+    ControlsComponent,
+    NewTaskComponent
   ],
   imports: [
     BrowserModule,

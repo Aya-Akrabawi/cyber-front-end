@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-controls',
@@ -10,24 +11,17 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class ControlsComponent implements OnInit {
 
+  @ViewChild(DatatableComponent, { static: false }) table!: DatatableComponent;
+  
   subDomainID = '';
   subscription!: Subscription;
-  rows = [
-    { 'المكون الاساسي للضابط': 'Austin', gender: 'Male', company: 'Swimlane' },
-    { 'المكون الاساسي للضابط': 'Dany', gender: 'Male', company: 'KFC' },
-    { 'المكون الاساسي للضابط': 'Molly', gender: 'Female', company: 'Burger King' }
-  ];
-  columns = [
-    // { name: 'المكون الاساسي للضابط' }, 
-    // { name: 'المكون الفرعي للضابط' }, 
-    { name: 'ar_domain_name' },
-    { name: 'ar_sub_domain_name' },
-    { name: 'con_main_number' },
-    { name: 'con_name' },
-    { name: 'sub_domain_goal' },
-    { name: 'ar_domain_name' },
-    { name: 'sub_domain_name' },
-  ];
+  count = 0;
+  rows:any = [];
+  temp:any = [];
+  loading = true;
+  page = 0;
+  isManager = false;
+
   constructor(
     private http: HttpService,
     private route: ActivatedRoute
@@ -36,22 +30,54 @@ export class ControlsComponent implements OnInit {
   ngOnInit(): void {
     this.subscription = this.route.params.subscribe((params: any) => {
       this.subDomainID = params.subDomainID;
-      // this.domainName = params.domainName;
-      
       if (this.subDomainID) {
         this.getControls();
       }
     })
+    this.isManager = localStorage.getItem('userRoleMNQ') === 'manager';
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
   getControls(page = 0) {
+    this.loading= true;
     this.http.getReq(`/controls/getAllControlsInSubDomain/${this.subDomainID}/${page}`).subscribe(res => {
-      this.rows = res.controls.data
+      this.rows = res.controls.data;
+      this.temp = this.rows;
+      this.count = res.controls.count;
+      this.loading = false;
     }, err => {
-      
+      this.loading = false;
+      this.rows = [];
     })
+  }
+
+  setPage(event: any) {
+    this.page = event.offset;
+    this.getControls(event.offset)
+  }
+
+  updateFilter(event: any) {
+    const val = event.target.value?.toLowerCase();
+    if (val) {
+      
+      // filter our data
+      const tempMainNum = this.temp.filter(function(d: any) {           
+        return d.con_main_number?.toLowerCase().includes(val) || !val;
+      }); 
+      const tempSubNum = this.temp.filter(function(d: any) {   
+        return d.con_sub_number?.toLowerCase().includes(val) || !val;
+      }); 
+      const tempSubName = this.temp.filter(function(d: any) {   
+        return d.con_name?.toLowerCase().includes(val) || !val;
+      }); 
+      // update the rows
+      this.rows = [...tempMainNum, ...tempSubNum, ...tempSubName];
+      
+      this.count = this.rows.length;
+      // Whenever the filter changes, always go back to the first page
+      this.table.offset = 0;
+    }
   }
 }

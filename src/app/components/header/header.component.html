@@ -33,7 +33,7 @@
                 </div>
             </div>
         </li>
-        <li *ngIf="authUser" class="position-relative profile-li">
+        <li  class="position-relative profile-li">
             <a (click)="isProfileMenuOpen = !isProfileMenuOpen; $event.stopPropagation()">
                 <img src="../../../assets/user (1).png" alt="">
             </a>
@@ -42,8 +42,11 @@
                     <li>
                         <a>مهامي</a>
                     </li>
-                    <li >
+                    <li *ngIf="authUser">
                         <a (click)="logout()">تسجيل خروج</a>
+                    </li>
+                    <li *ngIf="!authUser">
+                        <a [routerLink]="['/sign-in']" >تسجيل دخول</a>
                     </li>
                 </ul>
             </div>

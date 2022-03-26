@@ -28,3 +28,24 @@ body {
     font-size: 65px;
 }
 /* datatables styles */
+.datatable-body-cell-label {
+    text-align: center;
+    overflow: auto;
+}
+.datatable-body-cell-label {
+    white-space: normal;
+}
+.ngx-datatable.bootstrap .datatable-footer {
+    background: unset;
+    color: unset;
+}
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager a {
+    color: unset;
+}
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager li:not(.pages) a {
+    display: none;
+}
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled).active a,
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled):hover a {
+    color: #ededed;
+}

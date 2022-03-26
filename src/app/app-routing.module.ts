@@ -4,6 +4,7 @@ import { ControlsComponent } from './pages/controls/controls.component';
 import { CreateAccountComponent } from './pages/create-account/create-account.component';
 import { DomainsComponent } from './pages/domains/domains.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { NewTaskComponent } from './pages/new-task/new-task.component';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { SubdomainsComponent } from './pages/subdomains/subdomains.component';
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: 'controls/:subDomainID',
     component: ControlsComponent
+  },
+  {
+    path: 'tasks/new/:controlID',
+    component: NewTaskComponent
   },
   { path: '**', redirectTo: 'domains' }
 ];

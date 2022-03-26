@@ -46,6 +46,10 @@ export class SignInComponent implements OnInit {
     this.http.postReq('/signin', {}, {headers: headers}).subscribe( res => {
       this.submitLoading = false;
       localStorage.setItem('tokenMNQ', res.token);
+      
+      let jwtParsed = this.parseJwt(res.token);      
+      localStorage.setItem('userRoleMNQ', jwtParsed.user_role);
+      
       const NDAAccept = localStorage.getItem('NDAAcceptMNQ');
       if(!NDAAccept) {
         this.openNDA(this.content)
@@ -56,6 +60,16 @@ export class SignInComponent implements OnInit {
       this.notificationService.error('', err.message);
     })
   }
+
+  parseJwt(token: string) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+};
 
   openNDA(content: any) {
     this.modalContent = ` خلافاَ للإعتقاد السائد فإن لوريم إيبسوم ليس نصاَ عشوائياً، بل إن له جذور في الأدب اللاتيني الكلاسيكي منذ العام
