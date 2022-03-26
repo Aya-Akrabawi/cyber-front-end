@@ -1,0 +1,9 @@
+<h1 class="my-4 text-center">ضوابطي</h1>
+<section>
+    <ngx-datatable class="bootstrap ngx-datatable material fullscreen" [loadingIndicator]="true" [limit]="10"
+        [rows]="rows" [columns]="columns" [externalPaging]="true">
+        <ngx-datatable-column name="رقم الضابط الفرعي" prop="con_sub_number"></ngx-datatable-column>
+        <ngx-datatable-column name="رقم الضابط الأساسي" prop="con_main_number"></ngx-datatable-column>
+        <ngx-datatable-column name="تفاصيل الضابط" prop="con_name" [width]="300"></ngx-datatable-column>
+    </ngx-datatable>
+</section>

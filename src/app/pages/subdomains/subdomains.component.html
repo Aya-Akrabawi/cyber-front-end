@@ -1,0 +1,19 @@
+<h1 class="mt-4 text-center">{{domainName}}</h1>
+<section >
+    <h1 *ngIf="loading" class="loader text-center my-3">
+        <i class="fas fa-spinner fa-spin"></i>
+    </h1>
+    <div *ngIf="!loading && subDomains.length > 0" class="subdomains">
+        <div *ngFor="let subdomain of subDomains" [routerLink]="['/controls', subdomain.sub_domain_id]" class="subdomian">
+            <span class="subdomain-num">{{subdomain?.sub_domain_code}}</span>
+            <span class="subdomain-name">{{subdomain?.ar_sub_domain_name}}</span>
+        </div>
+        <div class="page-container mt-4">
+            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="total" (pageChange)="pageChange($event)"></ngb-pagination>
+        </div>
+    </div>
+</section>
+<h4 *ngIf="(errorApi && !loading) || (!loading && subDomains?.length == 0)" class="text-warning text-center mt-5">
+    <i class="fas fa-exclamation-circle mx-2"></i>
+    لا يوجد مكونات فرعية
+</h4>

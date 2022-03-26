@@ -1,0 +1,16 @@
+<div class="error-text" *ngIf=" control && control.touched && control.errors">
+    <div  *ngIf="control.errors.required">*مطلوب</div>
+    <div  *ngIf="control.errors.email">
+        *بريد إلكتروني غير صالح
+    </div>
+
+    <!-- <div  *ngIf="control.errors.maxlength">
+        *Maximum length {{control.errors.maxlength.requiredLength}} characters
+    </div>
+    <div  *ngIf="control.errors.minlength">
+        *Minimum length {{control.errors.minlength.requiredLength}} characters
+    </div> -->
+    <div *ngIf="control.errors.unmatchedPasswords">
+        *كلمات السر غير متطابقة
+    </div> 
+</div>

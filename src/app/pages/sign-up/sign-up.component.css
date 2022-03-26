@@ -1,0 +1,25 @@
+section {
+    width: 800px;
+    max-width: 100%;
+    border: 1px solid var(--main-theme-color);
+    padding: 40px;
+    margin: auto;
+    text-align: center;
+}
+section > img {
+    max-width: 200px;
+}
+form {
+    display: flex;
+    flex-wrap: wrap;
+}
+.input-container {
+    margin-bottom: 25px;
+    width: calc(100% / 2 - 12px);
+}
+app-form-errors {
+    text-align: right;
+}
+.submit-container {
+    min-width: 100%;
+}

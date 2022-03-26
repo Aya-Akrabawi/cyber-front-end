@@ -1,0 +1,52 @@
+<header class="d-flex" (click)="isNotificationsOpen = false; isProfileMenuOpen = false">
+    <p class="mb-0">LOGO</p>
+    <ul class="header-menu">
+        <li>
+            <a [routerLink]="['/domains']">
+                <img src="../../../assets/home.png" alt="">
+            </a>
+        </li>
+        <li *ngIf="authUser" class="position-relative notifications-li">
+            <a (click)="isNotificationsOpen = !isNotificationsOpen; $event.stopPropagation()">
+                <img src="../../../assets/bell.png" alt="">
+            </a>
+            <div *ngIf="isNotificationsOpen" class="notifications-wrapper">
+                <div class="notifications">
+                    <div *ngFor="let notification of notifications" class="notification">
+                        <h6 class="d-flex justify-content-between">
+                            <span>jjj</span>
+                            <span>66</span>
+                        </h6>
+                        <p>fff</p>
+                    </div>
+                    <div *ngIf="notifications.length == 0" class="empty-section text-center text-warning">
+                        <i class="fas fa-exclamation-circle mx-2"></i>
+                        <h1>لا يوجد اشعارات</h1>
+                    </div>
+                    <div>
+                        <button *ngIf="notifications.length < total &&
+                        notifications.length != 0" class="btn load-more">
+                            Load more
+                            <!-- <i v-if="loadingMore" class="fa-spin fa fa-spinner"></i> -->
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li *ngIf="authUser" class="position-relative profile-li">
+            <a (click)="isProfileMenuOpen = !isProfileMenuOpen; $event.stopPropagation()">
+                <img src="../../../assets/user (1).png" alt="">
+            </a>
+            <div *ngIf="isProfileMenuOpen" class="notifications-wrapper">
+                <ul>
+                    <li>
+                        <a>مهامي</a>
+                    </li>
+                    <li >
+                        <a (click)="logout()">تسجيل خروج</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</header>
