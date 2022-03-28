@@ -21,6 +21,11 @@ ul img {
 }
 li a {
     cursor: pointer;
+    color: #000;
+    text-decoration: none;
+}
+li a:hover {
+    text-decoration: underline;
 }
 /* notifications section */
 .notification-btn {

@@ -15,7 +15,7 @@
                 </label>
                 <select formControlName="assignToType" class="form-control">
                     <option value="" disabled selected hidden></option>
-                    <option *ngIf="users.length > 0" value="user">شخص</option>
+                    <option *ngIf="employees.length > 0" value="user">شخص</option>
                     <option value="department">قسم</option>
                 </select>
             </div>
@@ -32,8 +32,8 @@
                 </select>
                 <select *ngIf="newTaskForm.controls.assignToType.value == 'user'" formControlName="task_assigned_user_id" class="form-control">
                     <option value="" selected hidden disabled>اختر الشخص</option>
-                    <option *ngFor="let user of users" [value]="user?.user_id">
-                        {{user?.user_first_name}} {{user?.user_last_name}} - {{user?.user_role}}
+                    <option *ngFor="let user of employees" [value]="user?.user_id">
+                        {{user?.user_first_name}}
                     </option>
                 </select>
             </div>
@@ -81,7 +81,7 @@
                 <label>
                     تاريخ انتهاء المهمة
                 </label>
-                <input type="date" class="form-control" formControlName="task_expected_end_date">
+                <input type="date" [min]="today" class="form-control" formControlName="task_expected_end_date">
                 <app-form-errors [control]="newTaskForm.controls['task_expected_end_date']"></app-form-errors>
             </div>
         </div>

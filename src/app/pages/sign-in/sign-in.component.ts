@@ -47,8 +47,9 @@ export class SignInComponent implements OnInit {
       this.submitLoading = false;
       localStorage.setItem('tokenMNQ', res.token);
       
-      let jwtParsed = this.parseJwt(res.token);      
+      let jwtParsed = this.parseJwt(res.token);       
       localStorage.setItem('userRoleMNQ', jwtParsed.user_role);
+      localStorage.setItem('userIDMNQ', jwtParsed.user_id);
       
       const NDAAccept = localStorage.getItem('NDAAcceptMNQ');
       if(!NDAAccept) {

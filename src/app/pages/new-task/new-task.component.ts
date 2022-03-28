@@ -1,6 +1,8 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationsService } from 'angular2-notifications';
 import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -28,23 +30,27 @@ export class NewTaskComponent implements OnInit {
     task_internal_auditor_id: new FormControl(''),
     task_assigned_user_id: new FormControl(''),
     task_external_auditor_id: new FormControl(''),
+    task_manager_id: new FormControl(''),
   });
-  users: any = [];
+  employees: any = [];
   today = (new Date()).toISOString().split('T')[0]
   constructor(
     private route: ActivatedRoute,
-    private http: HttpService
+    private http: HttpService,
+    private notificationService: NotificationsService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    console.log(this.today);
-    
+
     this.subscription = this.route.params.subscribe((params: any) => {
-      this.controlID = params.subDomainID;
+      this.controlID = params.controlID;
       this.newTaskForm.controls.control_id.setValue(this.controlID);
     });
+    const managerId = localStorage.getItem('userIDMNQ')
+    this.newTaskForm.controls.task_manager_id.setValue(managerId);
     this.getAuditors();
-    this.getAllUsers();
+    this.getAllEmployees();
   }
 
   ngOnDestroy(): void {
@@ -65,14 +71,25 @@ export class NewTaskComponent implements OnInit {
 
     })
   }
-  getAllUsers() {
-    this.http.getReq('/users').subscribe(res => {
-      this.users = res;
+  getAllEmployees() {
+    this.http.getReq('/getAllEmployees').subscribe(res => {
+      this.employees = res;
     }, err => {
-      this.users = [];
+      this.employees = [];
     })
   }
   onSubmit() {
-
+    this.submitLoading = true;
+    const token = localStorage.getItem('tokenMNQ');
+    const headers = new HttpHeaders({ Authorization: 'Bearer ' + token });
+    
+    this.http.postReq(`/tasks/add/${this.controlID}`, this.newTaskForm.value, {headers}).subscribe(res => {
+      this.notificationService.success('', 'تمت اضافة المهمة بنجاح');
+      this.submitLoading = false;
+      this.router.navigate(['/tasks']);
+    }, err => {
+      this.submitLoading = false;
+      this.notificationService.error('', 'تعذر اضافة مهمة جديدة');
+    })
   }
 }

@@ -16,7 +16,7 @@
         <i class="fas fa-spinner fa-spin"></i>
     </h1>
 </div>
-<section *ngIf="!loading" class="px-5 py-4">
+<section *ngIf="!loading" class="px-5 py-4 controls-table">
     <input type="text" class="form-control" placeholder="البحث"
         (keyup)="updateFilter($event)" />
     <ngx-datatable #table class="bootstrap ngx-datatable material fullscreen" [loadingIndicator]="true" [count]="count"

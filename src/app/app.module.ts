@@ -17,6 +17,7 @@ import { DomainsComponent } from './pages/domains/domains.component';
 import { SubdomainsComponent } from './pages/subdomains/subdomains.component';
 import { ControlsComponent } from './pages/controls/controls.component';
 import { NewTaskComponent } from './pages/new-task/new-task.component';
+import { TasksComponent } from './pages/tasks/tasks.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { NewTaskComponent } from './pages/new-task/new-task.component';
     DomainsComponent,
     SubdomainsComponent,
     ControlsComponent,
-    NewTaskComponent
+    NewTaskComponent,
+    TasksComponent
   ],
   imports: [
     BrowserModule,

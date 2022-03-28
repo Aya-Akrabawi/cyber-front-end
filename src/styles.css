@@ -28,7 +28,7 @@ body {
     font-size: 65px;
 }
 /* datatables styles */
-.datatable-body-cell-label {
+.datatable-body-cell-label, .datatable-header-cell-template-wrap {
     text-align: center;
     overflow: auto;
 }

@@ -21,7 +21,6 @@ export class CreateAccountComponent implements OnInit {
     is_activated: new FormControl(true),
     reason: new FormControl('createNewAccount'),
   });
-
   constructor(
     private http: HttpService,
     private notificationService: NotificationsService,
@@ -36,15 +35,14 @@ export class CreateAccountComponent implements OnInit {
       return
     }
     this.submitLoading = true;
-    
-    // const headers = new HttpHeaders({ Authorization: 'Bearer ' + localStorage.getItem('tokenMNQ')});
-    // this.http.postReq('/signup', this.accountForm.value, {headers}).subscribe( res => {
-    //   this.submitLoading = false;
-    //   this.notificationService.success('', 'لقد تمت الاضافة بنجاح');
-    // }, err => {
-    //   this.submitLoading = false;
-    //   this.notificationService.error('', err.message);
-    // })
+
+    this.http.postReq('/emails/send', this.accountForm.value).subscribe(res => {
+      this.submitLoading = false;
+      this.notificationService.success('', 'سيتم التواصل معك عما قريب');
+    }, err => {
+      this.submitLoading = false;
+      this.notificationService.error('', err.message);
+    })
 
   }
 }

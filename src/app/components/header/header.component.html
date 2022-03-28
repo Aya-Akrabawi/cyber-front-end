@@ -39,8 +39,11 @@
             </a>
             <div *ngIf="isProfileMenuOpen" class="notifications-wrapper">
                 <ul>
-                    <li>
+                    <li *ngIf="userRole === 'employee'">
                         <a>مهامي</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/tasks']">المهام</a>
                     </li>
                     <li *ngIf="authUser">
                         <a (click)="logout()">تسجيل خروج</a>

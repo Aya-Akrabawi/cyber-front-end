@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   total = 3;
   isNotificationsOpen = false;
   authUser = false;
+  userRole: string = '';
   subscription!: Subscription;
   isProfileMenuOpen = false;
 
@@ -25,29 +26,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription = this.router.events.pipe(filter(event => event instanceof NavigationStart))
-    .subscribe((event) => {
-      this.getNotifications();
-    });
+      .subscribe(() => {
+        this.getNotifications();
+        this.userRole = localStorage.getItem('userRoleMNQ') || '';
+      });
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
   }
   getNotifications() {
-    const token =localStorage.getItem('tokenMNQ');
+    const token = localStorage.getItem('tokenMNQ');
     if (token) {
       this.authUser = true;
-      const headers = new HttpHeaders({ Authorization: 'Bearer ' + token});
-      this.http.getReq('/notifications/getAllNotificationsForUser', {headers}).subscribe(res => {
-  
+      const headers = new HttpHeaders({ Authorization: 'Bearer ' + token });
+      this.http.getReq('/notifications/getAllNotificationsForUser', { headers }).subscribe(res => {
+
       }, err => {
-  
+
       })
     }
   }
 
   logout() {
     localStorage.removeItem('tokenMNQ');
+    localStorage.removeItem('userRoleMNQ');
+    localStorage.removeItem('userIDMNQ');
     this.router.navigate(['/sign-in'])
   }
 }
