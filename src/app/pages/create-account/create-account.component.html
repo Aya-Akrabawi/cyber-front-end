@@ -18,7 +18,7 @@
             <app-form-errors [control]="accountForm.controls['email']"></app-form-errors>
         </div>
         <div class="input-container">
-            <select formControlName="department" class="form-control">
+            <select formControlName="department" class="form-select">
                 <option value="" selected hidden disabled>القسم</option>
                 <option value="1">الشؤوون الادارية القانونية</option>
                 <option value="2">المراجعة الداخلية</option>
@@ -32,7 +32,7 @@
         </div>
 
         <div class="input-container me-3">
-            <select formControlName="user_role" class="form-control">
+            <select formControlName="user_role" class="form-select">
                 <option value="" disabled hidden selected>الوظيفة</option>
                 <option value="admin">ادمن</option>
                 <option value="manager">مدير</option>

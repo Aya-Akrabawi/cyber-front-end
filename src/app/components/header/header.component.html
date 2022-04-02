@@ -6,18 +6,23 @@
                 <img src="../../../assets/home.png" alt="">
             </a>
         </li>
+        <li *ngIf="authUser">
+            <a [routerLink]="['/announcements']">
+                <img src="../../../assets/megaphone.png" alt="">
+            </a>
+        </li>
         <li *ngIf="authUser" class="position-relative notifications-li">
             <a (click)="isNotificationsOpen = !isNotificationsOpen; $event.stopPropagation()">
                 <img src="../../../assets/bell.png" alt="">
             </a>
-            <div *ngIf="isNotificationsOpen" class="notifications-wrapper">
+            <div [@openClose]="isNotificationsOpen ? 'open' : 'closed'" *ngIf="isNotificationsOpen" class="notifications-wrapper">
                 <div class="notifications">
-                    <div *ngFor="let notification of notifications" class="notification">
+                    <div *ngFor="let notification of notifications" (click)="markAsRead()" class="notification" [ngClass]="{'read': !notification?.is_read}">
                         <h6 class="d-flex justify-content-between">
-                            <span>jjj</span>
-                            <span>66</span>
+                            <!-- <span>jjj</span> -->
+                            <span>{{notification?.notification_creation_date | date:'d MMM yyyy, h:m aa':'':'ar'}}</span>
                         </h6>
-                        <p>fff</p>
+                        <p>{{notification?.notification_content}}</p>
                     </div>
                     <div *ngIf="notifications.length == 0" class="empty-section text-center text-warning">
                         <i class="fas fa-exclamation-circle mx-2"></i>
@@ -37,13 +42,25 @@
             <a (click)="isProfileMenuOpen = !isProfileMenuOpen; $event.stopPropagation()">
                 <img src="../../../assets/user (1).png" alt="">
             </a>
-            <div *ngIf="isProfileMenuOpen" class="notifications-wrapper">
+            <div [@openClose]="isProfileMenuOpen ? 'open' : 'closed'" *ngIf="isProfileMenuOpen" class="notifications-wrapper">
                 <ul>
+                    <li>
+                        <a [routerLink]="['/meetings']">اجتماعاتي</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/new-meeting']">اجتماع جديد</a>
+                    </li>
                     <li *ngIf="userRole === 'employee'">
-                        <a>مهامي</a>
+                        <a [routerLink]="['/tasks', userID]">مهامي</a>
                     </li>
                     <li>
                         <a [routerLink]="['/tasks']">المهام</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/issues']">الابلاغات</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/dashboard']">صفحة التحكم</a>
                     </li>
                     <li *ngIf="authUser">
                         <a (click)="logout()">تسجيل خروج</a>

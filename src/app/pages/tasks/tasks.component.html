@@ -1,11 +1,11 @@
-<h1 class="my-4 text-center">المهام</h1>
+<h1 class="my-4 text-center">{{employeeId ? 'مهامي' : 'المهام'}}</h1>
 <div *ngIf="loading" class="text-center my-4">
     <h1 class="loader text-center my-3">
         <i class="fas fa-spinner fa-spin"></i>
     </h1>
 </div>
 <section *ngIf="!loading" class="px-5 py-4 controls-table">
-    <input type="text" class="form-control" placeholder="البحث" (keyup)="updateFilter($event)" />
+    <!-- <input type="text" class="form-control" placeholder="البحث" (keyup)="updateFilter($event)" /> -->
     <ngx-datatable #table class="bootstrap ngx-datatable material fullscreen" [loadingIndicator]="true" [count]="count"
         [rows]="rows" [rowHeight]="80" [columnMode]="'force'" [scrollbarH]="true" [footerHeight]="50"
         [externalPaging]="true" [count]="count" [offset]="page" [limit]="10" (page)="setPage($event)">
@@ -19,54 +19,72 @@
         <ngx-datatable-column name="ملاحظات الموظف  " [canAutoResize]="true" prop="task_employee_notes">
         </ngx-datatable-column>
         <ngx-datatable-column name="ملاحظات المدير " [canAutoResize]="true" prop="task_manager_notes">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                <span
+                    title="انقر للتعديل"
+                    (click)="userRole == 'manager' && editing[rowIndex + '-task_manager_notes'] = true"
+                    *ngIf="!editing[rowIndex + '-task_manager_notes']"
+                    >
+                    {{ value }}
+                </span>
+                <input
+                autofocus
+                (blur)="updateValue($event, 'task_manager_notes', rowIndex, row['task_id'])"
+                *ngIf="editing[rowIndex + '-task_manager_notes']"
+                type="text"
+                [value]="value"
+                />
+            </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name=" ملاحظات المدقق  " [canAutoResize]="true" prop="task_auditor_notes">
         </ngx-datatable-column>
         <ngx-datatable-column name="إجراءات التصحيح" [canAutoResize]="true" prop="task_corrective_action">
         </ngx-datatable-column>
-        <ngx-datatable-column name="المرفق" [canAutoResize]="true" prop="task_attachment"></ngx-datatable-column>
+        <ngx-datatable-column name="المرفق" [canAutoResize]="true" prop="task_attachment">
+
+        </ngx-datatable-column>
         <ngx-datatable-column name="حالة المهمة" [canAutoResize]="true" prop="task_status"></ngx-datatable-column>
         <ngx-datatable-column name=" المرحلة" [canAutoResize]="true" prop="task_stage"></ngx-datatable-column>
         <ngx-datatable-column name=" تاريخ الالتزام المتوقع" [canAutoResize]="true"
             prop="task_commitment_expected_date">
             <ng-template let-value="value" ngx-datatable-cell-template>
-                {{value | date}}
+                {{value | date:'longDate':'':'ar'}}
             </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name=" تاريخ نشر المهمة" [canAutoResize]="true" prop="task_creation_date">
             <ng-template let-value="value" ngx-datatable-cell-template>
-                {{value | date}}
+                {{value | date:'longDate':'':'ar'}}
             </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name=" تاريخ البدء" [canAutoResize]="true" prop="task_expected_start_date">
             <ng-template let-value="value" ngx-datatable-cell-template>
-                {{value | date}}
+                {{value | date:'longDate':'':'ar'}}
             </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name=" تاريخ الانتهاء" [canAutoResize]="true" prop="task_expected_end_date">
             <ng-template let-value="value" ngx-datatable-cell-template>
-                {{value | date}}
+                {{value | date:'longDate':'':'ar'}}
             </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name=" تاريخ التدقيق" [canAutoResize]="true" prop="task_expected_audit_date">
             <ng-template let-value="value" ngx-datatable-cell-template>
-                {{value | date}}
+                {{value | date:'longDate':'':'ar'}}
             </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name=" تاريخ التدقيق" [canAutoResize]="true" prop="task_expected_audit_date">
             <ng-template let-value="value" ngx-datatable-cell-template>
-                {{value | date}}
+                {{value | date:'longDate':'':'ar'}}
             </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="القسم المسؤول" [canAutoResize]="true" prop="task_assigned_department"></ngx-datatable-column>
-        <ngx-datatable-column name=" المدقق الداخلي" [canAutoResize]="true" prop="task_internal_auditor_id"></ngx-datatable-column>
-        <ngx-datatable-column name="الدقق الخارجي " [canAutoResize]="true" prop="task_external_auditor_id"></ngx-datatable-column>
-        <!-- <ngx-datatable-column *ngIf="isManager"  name="">
+        <!-- <ngx-datatable-column name=" المدقق الداخلي" [canAutoResize]="true" prop="task_internal_auditor_id"></ngx-datatable-column> -->
+        <!-- <ngx-datatable-column name="الدقق الخارجي " [canAutoResize]="true" prop="task_external_auditor_id"></ngx-datatable-column> -->
+        <ngx-datatable-column *ngIf="userRole == 'employee'"  name="">
             <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-            <button [routerLink]="['/tasks/new', row.control_id]" routerLinkActive="router-link-active"  class="btn btn-primary">
-                اضافة مهمة
-            </button>
+            <a [routerLink]="['/submit-task', row.task_id]" class="btn btn-primary">
+                تعديل
+            </a>
             </ng-template>
-          </ngx-datatable-column> -->
+          </ngx-datatable-column>
     </ngx-datatable>
 </section>

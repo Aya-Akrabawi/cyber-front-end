@@ -19,7 +19,7 @@
 <section *ngIf="!loading" class="px-5 py-4 controls-table">
     <input type="text" class="form-control" placeholder="البحث"
         (keyup)="updateFilter($event)" />
-    <ngx-datatable #table class="bootstrap ngx-datatable material fullscreen" [loadingIndicator]="true" [count]="count"
+    <ngx-datatable #table class="bootstrap ngx-datatable material fullscreen"
         [rows]="rows" [rowHeight]="80" [columnMode]="'flex'" [scrollbarH]="true"
         [footerHeight]="50"
         [externalPaging]="true"

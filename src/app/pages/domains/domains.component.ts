@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -23,8 +24,9 @@ export class DomainsComponent implements OnInit {
   getDomains(page = 0) {
     this.errorApi = false;
     this.loading = true;
-    this.domains = []
-    this.http.getReq(`/domains/getAllDomains/${page}`).subscribe(res => {
+    this.domains = [];
+    const headers = new HttpHeaders({ Authorization: 'Bearer ' + localStorage.getItem('tokenMNQ') });
+    this.http.getReq(`/domains/getAllDomains/${page}`, {headers}).subscribe(res => {
       this.domains = res.domains.data;
       this.total = res.domains.count
       this.loading = false;

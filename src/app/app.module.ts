@@ -18,6 +18,21 @@ import { SubdomainsComponent } from './pages/subdomains/subdomains.component';
 import { ControlsComponent } from './pages/controls/controls.component';
 import { NewTaskComponent } from './pages/new-task/new-task.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SubmitTaskComponent } from './pages/submit-task/submit-task.component';
+import { MeetingsComponent } from './pages/meetings/meetings.component';
+import { AnnouncementsComponent } from './pages/announcements/announcements.component';
+import { NewAnnouncementComponent } from './pages/new-announcement/new-announcement.component';
+import { IssuesComponent } from './pages/issues/issues.component';
+import { NewIssueComponent } from './pages/new-issue/new-issue.component';
+import { NewPrerequisiteComponent } from './pages/new-prerequisite/new-prerequisite.component';
+import { NewEvidenceComponent } from './pages/new-evidence/new-evidence.component';
+import { EvidencesPrerequisiteComponent } from './pages/evidences-prerequisite/evidences-prerequisite.component';
+import { NewMeetingComponent } from './pages/new-meeting/new-meeting.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import {FileInputAccessorModule} from "file-input-accessor";
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 @NgModule({
   declarations: [
@@ -32,7 +47,18 @@ import { TasksComponent } from './pages/tasks/tasks.component';
     SubdomainsComponent,
     ControlsComponent,
     NewTaskComponent,
-    TasksComponent
+    TasksComponent,
+    SubmitTaskComponent,
+    MeetingsComponent,
+    AnnouncementsComponent,
+    NewAnnouncementComponent,
+    IssuesComponent,
+    NewIssueComponent,
+    NewPrerequisiteComponent,
+    NewEvidenceComponent,
+    EvidencesPrerequisiteComponent,
+    NewMeetingComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +75,11 @@ import { TasksComponent } from './pages/tasks/tasks.component';
       clickIconToClose: true,
       // preventDuplicates: true
     }),
-    NgxDatatableModule
+    NgxDatatableModule,
+    BrowserAnimationsModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    FileInputAccessorModule,
+    Ng2GoogleChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

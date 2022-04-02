@@ -58,7 +58,7 @@ export class SignInComponent implements OnInit {
       this.router.navigate(['/domains']);
     }, err => {
       this.submitLoading = false;
-      this.notificationService.error('', err.message);
+      this.notificationService.error('', err.error);
     })
   }
 

@@ -13,14 +13,15 @@
                 <label>
                     يسند الى
                 </label>
-                <select formControlName="assignToType" class="form-control">
+                <select formControlName="assignToType" class="form-select">
                     <option value="" disabled selected hidden></option>
                     <option *ngIf="employees.length > 0" value="user">شخص</option>
                     <option value="department">قسم</option>
                 </select>
+                <app-form-errors [control]="newTaskForm.controls['assignToType']"></app-form-errors>
             </div>
             <div class="input-container">
-                <select *ngIf="newTaskForm.controls.assignToType.value == 'department'" formControlName="task_assigned_department" class="form-control">
+                <select *ngIf="newTaskForm.controls.assignToType.value == 'department'" formControlName="task_assigned_department" class="form-select">
                     <option value="" selected hidden disabled>اختر القسم</option>
                     <option value="1">الشؤوون الادارية القانونية</option>
                     <option value="2">المراجعة الداخلية</option>
@@ -30,7 +31,7 @@
                     <option value="6">ادارة المستودعات</option>
                     <option value="7">ادارة الأمن السيبراني</option>
                 </select>
-                <select *ngIf="newTaskForm.controls.assignToType.value == 'user'" formControlName="task_assigned_user_id" class="form-control">
+                <select *ngIf="newTaskForm.controls.assignToType.value == 'user'" formControlName="task_assigned_user_id" class="form-select">
                     <option value="" selected hidden disabled>اختر الشخص</option>
                     <option *ngFor="let user of employees" [value]="user?.user_id">
                         {{user?.user_first_name}}
@@ -43,23 +44,25 @@
             <label>
                 المدقق الداخلي
             </label>
-            <select  formControlName="task_internal_auditor_id" class="form-control">
+            <select  formControlName="task_internal_auditor_id" class="form-select">
                 <option value="" selected hidden disabled>اختر مدقق</option>
                 <option *ngFor="let auditor of internalAuditors" [value]="auditor?.internal_auditor_id">
                     {{auditor?.user_first_name}}
                 </option>
             </select>
+            <app-form-errors [control]="newTaskForm.controls['task_internal_auditor_id']"></app-form-errors>
         </div>
         <div *ngIf="externalAuditors.length > 0"  class="input-container">
             <label>
                 المدقق الخارجي
             </label>
-            <select formControlName="task_external_auditor_id" class="form-control">
+            <select formControlName="task_external_auditor_id" class="form-select">
                 <option value="" selected hidden disabled>اختر مدقق</option>
                 <option *ngFor="let auditor of externalAuditors" [value]="auditor?.external_auditor_id">
                     {{auditor?.user_first_name}}
                 </option>
             </select>
+            <app-form-errors [control]="newTaskForm.controls['task_external_auditor_id']"></app-form-errors>
         </div>
 
         <div class="input-container">
@@ -81,7 +84,7 @@
                 <label>
                     تاريخ انتهاء المهمة
                 </label>
-                <input type="date" [min]="today" class="form-control" formControlName="task_expected_end_date">
+                <input type="date" [min]="newTaskForm.controls['task_expected_start_date'].value || today" class="form-control" formControlName="task_expected_end_date">
                 <app-form-errors [control]="newTaskForm.controls['task_expected_end_date']"></app-form-errors>
             </div>
         </div>

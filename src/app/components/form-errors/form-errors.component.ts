@@ -8,6 +8,8 @@ import { Component, OnInit, Input } from '@angular/core';
 export class FormErrorsComponent implements OnInit {
 
   @Input() control: any;
+  numericalRegex = /^\d+$/;
+  
   constructor() { }
 
   ngOnInit(): void {

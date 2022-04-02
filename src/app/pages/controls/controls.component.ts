@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-controls',
@@ -42,7 +43,8 @@ export class ControlsComponent implements OnInit {
 
   getControls(page = 0) {
     this.loading= true;
-    this.http.getReq(`/controls/getAllControlsInSubDomain/${this.subDomainID}/${page}`).subscribe(res => {
+    const headers = new HttpHeaders({ Authorization: 'Bearer ' + localStorage.getItem('tokenMNQ') });
+    this.http.getReq(`/controls/getAllControlsInSubDomain/${this.subDomainID}/${page}`, {headers}).subscribe(res => {
       this.rows = res.controls.data;
       this.temp = this.rows;
       this.count = res.controls.count;

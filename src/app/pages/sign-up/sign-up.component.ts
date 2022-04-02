@@ -44,7 +44,7 @@ export class SignUpComponent implements OnInit {
       this.notificationService.success('', 'لقد تمت الاضافة بنجاح');
     }, err => {
       this.submitLoading = false;
-      this.notificationService.error('', err.message);
+      this.notificationService.error('', err.error);
     })
 
   }

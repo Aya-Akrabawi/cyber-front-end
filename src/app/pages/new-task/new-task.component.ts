@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { Subscription } from 'rxjs';
@@ -18,22 +18,23 @@ export class NewTaskComponent implements OnInit {
   externalAuditors: any = [];
   controlID = 0;
   submitLoading = false;
+  today = (new Date()).toISOString().split('T')[0];
   newTaskForm = new FormGroup({
     task_name: new FormControl('', Validators.required),
     task_manager_notes: new FormControl(''),
-    task_expected_start_date: new FormControl(''),
-    task_expected_end_date: new FormControl(''),
-    task_expected_audit_date: new FormControl(''),
+    task_expected_start_date: new FormControl('', [Validators.required, this.minDate()]),
+    task_expected_end_date: new FormControl('', [Validators.required, this.minDate()]),
+    task_expected_audit_date: new FormControl('', Validators.required),
     control_id: new FormControl(''),
-    assignToType: new FormControl(''),
+    assignToType: new FormControl('', Validators.required),
     task_assigned_department: new FormControl(''),
-    task_internal_auditor_id: new FormControl(''),
+    task_internal_auditor_id: new FormControl('', Validators.required),
     task_assigned_user_id: new FormControl(''),
-    task_external_auditor_id: new FormControl(''),
+    task_external_auditor_id: new FormControl('', Validators.required),
     task_manager_id: new FormControl(''),
   });
   employees: any = [];
-  today = (new Date()).toISOString().split('T')[0]
+  
   constructor(
     private route: ActivatedRoute,
     private http: HttpService,
@@ -79,10 +80,13 @@ export class NewTaskComponent implements OnInit {
     })
   }
   onSubmit() {
-    this.submitLoading = true;
     const token = localStorage.getItem('tokenMNQ');
     const headers = new HttpHeaders({ Authorization: 'Bearer ' + token });
-    
+    if(this.newTaskForm.invalid) {
+      this.newTaskForm.markAllAsTouched();
+      return;
+    }
+    this.submitLoading = true;
     this.http.postReq(`/tasks/add/${this.controlID}`, this.newTaskForm.value, {headers}).subscribe(res => {
       this.notificationService.success('', 'تمت اضافة المهمة بنجاح');
       this.submitLoading = false;
@@ -91,5 +95,13 @@ export class NewTaskComponent implements OnInit {
       this.submitLoading = false;
       this.notificationService.error('', 'تعذر اضافة مهمة جديدة');
     })
+  }
+  minDate(): ValidatorFn {
+    return (control: any): ValidationErrors | null => {
+      if (control.value) {
+        return control.value < this.today ? { 'minDate': true } : null;
+      }
+      return null;
+    };
   }
 }

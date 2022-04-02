@@ -1,0 +1,59 @@
+<h1 class="my-4 text-center">دليل جديد</h1>
+
+<section class="mt-5">
+    <form class="mt-4" [formGroup]="evidenceForm" (ngSubmit)="onSubmit()">
+        <div class="input-container">
+            <label>
+                محتوى الدليل
+            </label>
+            <textarea class="form-control" formControlName="evid_description"></textarea>
+            <app-form-errors [control]="evidenceForm.controls['evid_description']"></app-form-errors>
+        </div>
+        <div *ngIf="managers?.length > 0" class="input-container">
+            <label>الشخص المعني في الجهة</label>
+            <select formControlName="evid_send_to" class="form-select">
+                <option *ngFor="let manager of managers" [value]="manager?.user_id">
+                    {{manager?.user_first_name}} - {{manager?.department}}
+                </option>
+            </select>
+            <app-form-errors [control]="evidenceForm.controls['evid_send_to']"></app-form-errors>
+        </div>
+
+        
+        <div class="input-container">
+            <label>
+                رقم الهاتف
+            </label>
+            <input type="rel" class="form-control" formControlName="evid_phone_no">
+            <app-form-errors [control]="evidenceForm.controls['evid_phone_no']"></app-form-errors>
+        </div>
+        <div class="input-container">
+            <label>
+                البريد الاكتروني
+            </label>
+            <input type="email" class="form-control" formControlName="evid_email">
+            <app-form-errors [control]="evidenceForm.controls['evid_email']"></app-form-errors>
+        </div>
+        <div class="input-container">
+            <label>
+                 المرفق
+            </label>
+            <input type="file" [size]="size" [allowedExt]="extensions" accept="image/*, pdf" class="form-control"  
+            [formControl]="toControl(evidenceForm.controls['evid_attachment_beforeConvert'])" (change)="fileConvert($event)" >
+            <app-form-errors [control]="evidenceForm.controls['evid_attachment_beforeConvert']"></app-form-errors>
+        </div>
+        <div class="input-container">
+            <label>
+               ملاحظات
+            </label>
+            <textarea class="form-control" formControlName="evid_notes"></textarea>
+            <app-form-errors [control]="evidenceForm.controls['evid_notes']"></app-form-errors>
+        </div>
+        <div class="submit-container">
+            <button type="submit" class="btn btn-primary">
+                إرسال
+                <i *ngIf="submitLoading" class="fa-spin fas fa-spinner mx-2"></i>
+            </button>
+        </div>
+    </form>
+</section>

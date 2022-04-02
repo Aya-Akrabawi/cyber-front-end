@@ -156,3 +156,6 @@ div.empty-section h1 {
 .profile-li .notifications-wrapper li  a:hover {
     text-decoration: underline;
 }
+.read {
+    background-color: rgba(	5, 189,	160, 0.1);
+}

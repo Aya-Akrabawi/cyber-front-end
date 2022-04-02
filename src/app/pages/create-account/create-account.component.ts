@@ -41,7 +41,7 @@ export class CreateAccountComponent implements OnInit {
       this.notificationService.success('', 'سيتم التواصل معك عما قريب');
     }, err => {
       this.submitLoading = false;
-      this.notificationService.error('', err.message);
+      this.notificationService.error('', err.error);
     })
 
   }

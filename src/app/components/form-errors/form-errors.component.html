@@ -4,13 +4,22 @@
         *بريد إلكتروني غير صالح
     </div>
 
-    <!-- <div  *ngIf="control.errors.maxlength">
-        *Maximum length {{control.errors.maxlength.requiredLength}} characters
+    <div  *ngIf="control.errors.minDate">
+        *تاريخ غير مقبول
     </div>
     <div  *ngIf="control.errors.minlength">
-        *Minimum length {{control.errors.minlength.requiredLength}} characters
-    </div> -->
+        * {{control.errors.minlength.requiredLength}} ارقام على الاقل
+    </div>
     <div *ngIf="control.errors.unmatchedPasswords">
         *كلمات السر غير متطابقة
     </div> 
+    <div *ngIf="control.errors.fileExt">
+        * صور و pdf فقط
+    </div> 
+    <div *ngIf="control.errors.fileSize">
+        * حجم الملف أكبر من 1MB
+    </div> 
+    <div *ngIf="control.errors.pattern?.requiredPattern == numericalRegex">
+        * أرقام فقط
+    </div>
 </div>
