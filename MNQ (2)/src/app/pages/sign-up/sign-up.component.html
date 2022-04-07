@@ -1,0 +1,57 @@
+<section class="mt-5">
+    <img src="../../../assets/profile-user.png" alt="">
+    <form class="mt-4" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+        <div class="input-container  me-3">
+            <input formControlName="user_first_name" type="text" class="form-control" placeholder="الاسم الأول">
+            <app-form-errors [control]="signUpForm.controls['user_first_name']"></app-form-errors>
+        </div>
+        
+        <div class="input-container">
+            <input formControlName="user_last_name" type="text" class="form-control" placeholder="الاسم الأخير">
+            <app-form-errors [control]="signUpForm.controls['user_last_name']"></app-form-errors>
+        </div>
+        <div class="input-container me-3">
+            <input formControlName="email" type="email" class="form-control" placeholder="البريد الالكتروني">
+            <app-form-errors [control]="signUpForm.controls['email']"></app-form-errors>
+        </div>
+        <div class="input-container">
+            <select formControlName="department" class="form-select">
+                <option value="" selected hidden disabled>القسم</option>
+                <option value="1">الشؤوون الادارية القانونية</option>
+                <option value="2">المراجعة الداخلية</option>
+                <option value="3">IT</option>
+                <option value="4">الموارد لبشرية</option>
+                <option value="5">الأمن و السلامة</option>
+                <option value="6">ادارة المستودعات</option>
+                <option value="7">ادارة الأمن السيبراني</option>
+            </select>
+            <app-form-errors [control]="signUpForm.controls['department']"></app-form-errors>
+        </div>
+        <div class="input-container me-3">
+            <input type="password" formControlName="password" class="form-control" placeholder="كلمة السر">
+            <app-form-errors [control]="signUpForm.controls['password']"></app-form-errors>
+        </div>
+        <div class="input-container">
+            <input type="password" formControlName="confirm_password" class="form-control" placeholder="تأكيد كلمة السر">
+            <app-form-errors [control]="signUpForm.controls['confirm_password']"></app-form-errors>
+            <app-form-errors [control]="signUpForm"></app-form-errors>
+        </div>
+        <div class="input-container me-3">
+            <select formControlName="user_role" class="form-select">
+                <option value="" disabled hidden selected>الوظيفة</option>
+                <option value="admin">ادمن</option>
+                <option value="manager">مدير</option>
+                <option value="employee">موظف</option>
+                <option value="internal_auditor">مدقق داخلي</option>
+                <option value="extrenal_auditor">مدقق خارجي</option>
+            </select>
+            <app-form-errors [control]="signUpForm.controls['user_role']"></app-form-errors>
+        </div>
+        <div class="submit-container">
+            <button type="submit" class="btn btn-primary">
+                إرسال
+                <i *ngIf="submitLoading" class="fa-spin fas fa-spinner mx-2"></i>
+            </button>
+        </div>
+    </form>
+</section>

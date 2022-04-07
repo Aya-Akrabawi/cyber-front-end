@@ -1,0 +1,39 @@
+.subdomains {
+    display: flex;
+    /* justify-content: center; */
+    max-width: 80%;
+    margin: 40px auto;
+    flex-wrap: wrap;
+}
+.subdomian {
+    width: 50%;
+    border: 2px solid var(--main-theme-color);
+    display: flex;
+    padding: 0 10px;
+    font-weight: 700;
+    align-items: center;
+    cursor: pointer;
+}
+/* .subdomian + .subdomian {
+    border-right: 0;
+} */
+.subdomain-num {
+    padding-left: 10px;
+    width: 70px;
+    text-align: center;
+}
+.subdomain-name {
+    flex-grow: 1;
+    border-right: 2px solid var(--main-theme-color);
+    text-align: center;
+    font-size: 18px;
+    padding: 10px 0;
+    height: 100%;
+    padding-right: 10px;
+}
+.subdomain-name img {
+    max-height: 20px;
+}
+.page-container {
+    min-width: 100%;
+}

@@ -1,0 +1,49 @@
+<h1 class="mt-4 text-center">{{domainName}}</h1>
+<section>
+    <h1 *ngIf="loading" class="loader text-center my-3">
+        <i class="fas fa-spinner fa-spin"></i>
+    </h1>
+    <div *ngIf="!loading && subDomains.length > 0" class="subdomains">
+        <div *ngFor="let subdomain of subDomains; let i = index" class="subdomian">
+            <span class="subdomain-num">{{subdomain?.sub_domain_code}}</span>
+            <div ngbDropdown class="subdomain-name d-flex justify-content-between align-items-center">
+                {{subdomain?.ar_sub_domain_name}}
+
+                <button class="btn dropdown-toggle" type="button" [id]="'dropdownMenuButton' + i" ngbDropdownToggle>
+                </button>
+                <ul class="dropdown-menu" ngbDropdownMenu [attr.aria-labelledby]="'dropdownMenuButton' + i">
+                    <li ngbDropdownItem>
+                        <a class="dropdown-item" [routerLink]="['/controls', subdomain.sub_domain_id]">عرض المكون
+                            الفرعي</a>
+                    </li>
+                    <li ngbDropdownItem>
+                        <a class="dropdown-item" [routerLink]="['/evidences-prerequisites', subdomain.sub_domain_id]">
+                            عرض الدلائل و المتطلبات
+                        </a>
+                    </li>
+                    <ng-container *ngIf="userRole == 'employee'">
+
+                        <li ngbDropdownItem>
+                            <a class="dropdown-item" [routerLink]="['/new-prerequisite', subdomain.sub_domain_id]">
+                                متطلب جديد
+                            </a>
+                        </li>
+                        <li ngbDropdownItem>
+                            <a class="dropdown-item" [routerLink]="['/new-evidence', subdomain.sub_domain_id]">
+                                دليل جديد
+                            </a>
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
+        </div>
+        <div class="page-container mt-4">
+            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="total"
+                (pageChange)="pageChange($event)"></ngb-pagination>
+        </div>
+    </div>
+</section>
+<h4 *ngIf="(errorApi && !loading) || (!loading && subDomains?.length == 0)" class="text-warning text-center mt-5">
+    <i class="fas fa-exclamation-circle mx-2"></i>
+    لا يوجد مكونات فرعية
+</h4>

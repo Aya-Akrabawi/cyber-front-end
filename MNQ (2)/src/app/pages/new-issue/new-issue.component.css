@@ -1,0 +1,22 @@
+section {
+    width: 70%;
+    max-width: 100%;
+    border: 1px solid var(--main-theme-color);
+    padding: 40px;
+    margin: auto;
+    text-align: center;
+}
+.input-container {
+    text-align: right;
+    width: 300px;
+    max-width: 100%;
+    margin: auto;
+    margin-bottom: 25px;
+}
+
+app-form-errors {
+    text-align: right;
+}
+.submit-container {
+    min-width: 100%;
+}
