@@ -17,7 +17,7 @@ export class SignInComponent implements OnInit {
   submitLoading = false;
   signInForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required, Validators.pattern(/^.(?=.*[a-z])(?=.*[0-9])(?=.*[~!@#$%^&*()_-]).*$/), Validators.minLength(8)]),
   });
   modalContent = '';
 

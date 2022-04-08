@@ -11,76 +11,51 @@
             [columnMode]="'force'" [scrollbarH]="true" [messages]="{emptyMessage: 'لا يوجد بيانات'}" [footerHeight]="50"
             [externalPaging]="true" [count]="evidencesCount" [offset]="evidencesPage" [limit]="10"
             (page)="setEvidencesPage($event)">
-            <!--
-            <ngx-datatable-column name="قائمة الأدلة" [minWidth]="130" prop="ar_sub_domain_name">
+
+            <ngx-datatable-column name="قائمة الأدلة" [minWidth]="300" prop="evid_description">
             </ngx-datatable-column>
-            <ngx-datatable-column name="المكون الفرعي للضابط" [minWidth]="130" [maxWidth]="200" prop="ar_domain_name">
+            <ngx-datatable-column name="رقم الفرعي للضابط" [minWidth]="130" [maxWidth]="200" prop="sub_domain_code">
             </ngx-datatable-column>
-            <ngx-datatable-column name="عنوان المهمة" [canAutoResize]="true" prop="task_name"></ngx-datatable-column>
-            <ngx-datatable-column name="مستوى الالتزام " [canAutoResize]="true" prop="task_commitment">
+            <ngx-datatable-column name="تاريخ إرسال الطلب للجهة" [canAutoResize]="true" prop="evid_creation_date">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value | date:'longDate':'':'ar'}}
+                </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="ملاحظات الموظف  " [canAutoResize]="true" prop="task_employee_notes">
+            <ngx-datatable-column name="تاريخ استلام تأكيد الجهة على تجهيز الأدلة" [canAutoResize]="true"
+                prop="evid_confirmation_date">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value | date:'longDate':'':'ar'}}
+                </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="ملاحظات المدير " [canAutoResize]="true" prop="task_manager_notes">
+            <ngx-datatable-column name="حالة الدليل" [minWidth]="130" prop="evid_status">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                     <span title="انقر للتعديل"
-                        (click)="userRole == 'manager' && editing[rowIndex + '-task_manager_notes'] = true"
-                        *ngIf="!editing[rowIndex + '-task_manager_notes']">
+                        (click)="userRole == 'manager' && evidStatusEditing[rowIndex + '-evid_status'] = true"
+                        *ngIf="!evidStatusEditing[rowIndex + '-evid_status']">
                         {{ value }}
                     </span>
-                    <input autofocus (blur)="updateValue($event, 'task_manager_notes', rowIndex, row['task_id'])"
-                        *ngIf="editing[rowIndex + '-task_manager_notes']" type="text" [value]="value" />
+                    <select autofocus class="form-select" *ngIf="evidStatusEditing[rowIndex + '-evid_status']"
+                        (blur)="updateEvidStatus($event, 'evid_status', rowIndex, row['evid_id'])">
+                        <option selected disabled hidden>يرجى تحديد الحالة؟</option>
+                        <option value="تم الإنتهاء من تجهيز المتطلب">
+                            تم الإنتهاء من تجهيز المتطلب
+                        </option>
+                        <option value="غير متوفر لدى الجهة">
+                            غير متوفر لدى الجهة
+                        </option>
+                        <option value=" لا ينطبق على الجهة"> لا ينطبق على الجهة</option>
+                        <option value="جاري العمل على تجهيز المتطلب"> جاري العمل على تجهيز المتطلب</option>
+                    </select>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name=" ملاحظات المدقق  " [canAutoResize]="true" prop="task_auditor_notes">
+            <ngx-datatable-column name=" الشخص المعني" [minWidth]="130" prop="evid_send_to">
             </ngx-datatable-column>
-            <ngx-datatable-column name="إجراءات التصحيح" [canAutoResize]="true" prop="task_corrective_action">
+            <ngx-datatable-column name="البريد الإلكتروني" [minWidth]="130" prop="evid_email">
             </ngx-datatable-column>
-            <ngx-datatable-column name="المرفق" [canAutoResize]="true" prop="task_attachment">
-
+            <ngx-datatable-column name="الهاتف" [minWidth]="130" prop="evid_phone_no">
             </ngx-datatable-column>
-            <ngx-datatable-column name="حالة المهمة" [canAutoResize]="true" prop="task_status"></ngx-datatable-column>
-            <ngx-datatable-column name=" المرحلة" [canAutoResize]="true" prop="task_stage"></ngx-datatable-column>
-            <ngx-datatable-column name=" تاريخ الالتزام المتوقع" [canAutoResize]="true"
-                prop="task_commitment_expected_date">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{value | date:'longDate':'':'ar'}}
-                </ng-template>
+            <ngx-datatable-column name="الملاحظات" [minWidth]="130" prop="evid_notes">
             </ngx-datatable-column>
-            <ngx-datatable-column name=" تاريخ نشر المهمة" [canAutoResize]="true" prop="task_creation_date">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{value | date:'longDate':'':'ar'}}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name=" تاريخ البدء" [canAutoResize]="true" prop="task_expected_start_date">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{value | date:'longDate':'':'ar'}}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name=" تاريخ الانتهاء" [canAutoResize]="true" prop="task_expected_end_date">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{value | date:'longDate':'':'ar'}}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name=" تاريخ التدقيق" [canAutoResize]="true" prop="task_expected_audit_date">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{value | date:'longDate':'':'ar'}}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name=" تاريخ التدقيق" [canAutoResize]="true" prop="task_expected_audit_date">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{value | date:'longDate':'':'ar'}}
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="القسم المسؤول" [canAutoResize]="true" prop="task_assigned_department">
-            </ngx-datatable-column>
-            <ngx-datatable-column *ngIf="userRole == 'employee'" name="">
-                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                    <a [routerLink]="['/submit-task', row.task_id]" class="btn btn-primary">
-                        تعديل
-                    </a>
-                </ng-template>
-            </ngx-datatable-column> -->
         </ngx-datatable>
     </section>
 </div>
@@ -101,8 +76,8 @@
             <ngx-datatable-column name="قائمة المتطلبات" [minWidth]="300" [canAutoResize]="true"
                 prop="prerequisite_description">
             </ngx-datatable-column>
-            <!-- <ngx-datatable-column name="رقم الكون الفرعي" [minWidth]="130" prop="prerequisite_description">
-            </ngx-datatable-column> -->
+            <ngx-datatable-column name="رقم المكون الفرعي" [minWidth]="130" prop="sub_domain_code">
+            </ngx-datatable-column>
             <ngx-datatable-column name=" تاريخ إرسال الطلب" prop="prerequisite_creation_date">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     {{value | date:'longDate':'':'ar'}}
@@ -113,14 +88,14 @@
                     {{value | date:'longDate':'':'ar'}}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="حالةالطلب" [minWidth]="130" prop="prerequisite_status">
+            <ngx-datatable-column name="حالة الطلب" [minWidth]="130" prop="prerequisite_status">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                     <span title="انقر للتعديل"
                         (click)="userRole == 'manager' && preReqStatusEditing[rowIndex + '-prerequisite_status'] = true"
                         *ngIf="!preReqStatusEditing[rowIndex + '-prerequisite_status']">
                         {{ value }}
                     </span>
-                    <select autofocus *ngIf="preReqStatusEditing[rowIndex + '-prerequisite_status']"
+                    <select autofocus class="form-select" *ngIf="preReqStatusEditing[rowIndex + '-prerequisite_status']"
                         (blur)="updatePrereqStatus($event, 'prerequisite_status', rowIndex, row['prerequisite_id'])">
                         <option selected disabled hidden>يرجى تحديد الحالة؟</option>
                         <option value="تم الإنتهاء من تجهيز المتطلب">
@@ -130,7 +105,7 @@
                             غير متوفر لدى الجهة
                         </option>
                         <option value=" لا ينطبق على الجهة"> لا ينطبق على الجهة</option>
-                        <option value="  جاري العمل على تجهيز المتطلب">  جاري العمل على تجهيز المتطلب</option>
+                        <option value=" جاري العمل على تجهيز المتطلب"> جاري العمل على تجهيز المتطلب</option>
                     </select>
                 </ng-template>
             </ngx-datatable-column>

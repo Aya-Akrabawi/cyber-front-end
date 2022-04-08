@@ -51,7 +51,7 @@
             </div>
             <div class="d-flex align-items-center input-container">
                 <label class="mr-3"> المرفق</label>
-                <input type="file" [size]="size" [allowedExt]="extensions" accept="image/*, pdf" class="form-control"
+                <input type="file" [size]="size" [allowedExt]="extensions" accept="image/*, .pdf, .docx, .xlsx, .xls" class="form-control"
                     [formControl]="toControl(submitForm.controls['task_attachment_beforeConvert'])"
                     (change)="fileConvert($event)">
                 <app-form-errors [control]="submitForm.controls['task_attachment_beforeConvert']">

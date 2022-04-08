@@ -1,0 +1,3 @@
+.comma:not(:last-child):after {
+    content: ", ";
+}

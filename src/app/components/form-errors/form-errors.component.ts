@@ -9,7 +9,8 @@ export class FormErrorsComponent implements OnInit {
 
   @Input() control: any;
   numericalRegex = /^\d+$/;
-  
+  passwordRegex = /^.(?=.*[a-z])(?=.*[0-9])(?=.*[~!@#$%^&*()_-]).*$/;
+
   constructor() { }
 
   ngOnInit(): void {

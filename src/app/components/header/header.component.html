@@ -17,7 +17,7 @@
             </a>
             <div [@openClose]="isNotificationsOpen ? 'open' : 'closed'" *ngIf="isNotificationsOpen" class="notifications-wrapper">
                 <div class="notifications">
-                    <div *ngFor="let notification of notifications" (click)="markAsRead()" class="notification" [ngClass]="{'read': !notification?.is_read}">
+                    <div *ngFor="let notification of notifications; let i = index" (click)="markAsRead(i)" class="notification" [ngClass]="{'read': !notification?.is_read}">
                         <h6 class="d-flex justify-content-between">
                             <!-- <span>jjj</span> -->
                             <span>{{notification?.notification_creation_date | date:'d MMM yyyy, h:m aa':'':'ar'}}</span>
@@ -47,9 +47,9 @@
                     <li>
                         <a [routerLink]="['/meetings']">اجتماعاتي</a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a [routerLink]="['/new-meeting']">اجتماع جديد</a>
-                    </li>
+                    </li> -->
                     <li *ngIf="userRole === 'employee'">
                         <a [routerLink]="['/tasks', userID]">مهامي</a>
                     </li>

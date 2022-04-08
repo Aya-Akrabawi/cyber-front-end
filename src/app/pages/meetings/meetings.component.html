@@ -6,6 +6,11 @@
     </h1>
 </div>
 <section *ngIf="!loading" class="px-5 py-4 controls-table">
+    <div  class="my-4 text-start">
+        <a [routerLink]="['/new-meeting']" class="btn btn-primary">
+            إجتماع جديد
+        </a>
+    </div>
     <ngx-datatable #table class="bootstrap ngx-datatable material"
         [rows]="rows" [rowHeight]="80" [columnMode]="'force'" 
         [scrollbarH]="true" [footerHeight]="50"
@@ -17,12 +22,25 @@
         (page)="setPage($event)">
         <ngx-datatable-column name="العنوان" prop="meeting_title" [minWidth]="130"></ngx-datatable-column>
         <ngx-datatable-column name="الموضوع" prop="meeting_content" [minWidth]="130"></ngx-datatable-column>
-        <ngx-datatable-column name=" التاريخ"  prop="meeting_creation_date" [minWidth]="130">
+        <ngx-datatable-column name=" التاريخ"  prop="meeting_happening_on_date" [minWidth]="130">
             <ng-template let-value="value" ngx-datatable-cell-template>
                 {{value | date:'longDate':'':'ar'}}
             </ng-template>
         </ngx-datatable-column>
-        <!-- <ngx-datatable-column name="أنشأ الاجتماع" prop="meeting_content" [minWidth]="130"></ngx-datatable-column>
-        <ngx-datatable-column name="المدعوون" prop="meeting_content" [minWidth]="130"></ngx-datatable-column> -->
+        <ngx-datatable-column name="الوقت"  prop="meeting_happening_on_date" [minWidth]="130">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value | date:'h:m aa':'':'ar'}}
+            </ng-template>
+        </ngx-datatable-column>
+        <!-- <ngx-datatable-column name="أنشأ الاجتماع" prop="meeting_content" [minWidth]="130"></ngx-datatable-column> -->
+        <ngx-datatable-column name="المدعوون" [minWidth]="130">
+            <ng-template  let-row="row" ngx-datatable-cell-template>
+                <ng-container *ngFor="let userID of row?.notified_users_id.split(',')">
+                    <span class="comma">
+                        {{usersInfoObj[userID]?.user_first_name}}
+                    </span>
+                </ng-container>
+            </ng-template>
+        </ngx-datatable-column>
     </ngx-datatable>
 </section>

@@ -79,13 +79,16 @@ export class NewTaskComponent implements OnInit {
     })
   }
   onSubmit() {
-    const token = localStorage.getItem('tokenMNQ');
     if(this.newTaskForm.invalid) {
       this.newTaskForm.markAllAsTouched();
       return;
     }
     this.submitLoading = true;
-    this.http.postReq(`/tasks/add/${this.controlID}`, this.newTaskForm.value).subscribe(res => {
+    const payload = this.newTaskForm.value;
+    if (payload.task_assigned_department) {
+      payload.task_assigned_user_id = null;
+    }
+    this.http.postReq(`/tasks/add/${this.controlID}`, payload).subscribe(res => {
       this.notificationService.success('', 'تمت اضافة المهمة بنجاح');
       this.submitLoading = false;
       this.router.navigate(['/tasks']);

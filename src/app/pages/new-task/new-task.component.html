@@ -4,7 +4,11 @@
             <label>
                 اسم المهمة
             </label>
-            <input formControlName="task_name" type="text" class="form-control">
+            <select formControlName="task_name" class="form-select">
+                <option>تدقيق </option>
+                <option>تنفيذ </option>
+                <option>أخرى </option>
+            </select>
             <app-form-errors [control]="newTaskForm.controls['task_name']"></app-form-errors>
         </div>
 
@@ -65,13 +69,6 @@
             <app-form-errors [control]="newTaskForm.controls['task_external_auditor_id']"></app-form-errors>
         </div>
 
-        <div class="input-container">
-            <label>
-                ملاحظات
-            </label>
-            <textarea class="form-control" formControlName="task_manager_notes"></textarea>
-            <app-form-errors [control]="newTaskForm.controls['task_manager_notes']"></app-form-errors>
-        </div>
         <div class="d-flex">
             <div class="input-container me-2 text-start">
                 <label>
@@ -96,6 +93,14 @@
             <app-form-errors [control]="newTaskForm.controls['task_expected_audit_date']"></app-form-errors>
         </div>
 
+        <div class="input-container">
+            <label>
+                ملاحظات
+            </label>
+            <textarea class="form-control" formControlName="task_manager_notes"></textarea>
+            <app-form-errors [control]="newTaskForm.controls['task_manager_notes']"></app-form-errors>
+        </div>
+        
         <div class="submit-container">
             <button type="submit" class="btn btn-primary">
                 إرسال

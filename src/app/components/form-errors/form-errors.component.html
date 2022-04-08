@@ -8,18 +8,22 @@
         *تاريخ غير مقبول
     </div>
     <div  *ngIf="control.errors.minlength">
-        * {{control.errors.minlength.requiredLength}} ارقام على الاقل
+        *  أقل عدد للرموز هو  {{control.errors.minlength.requiredLength}}
     </div>
     <div *ngIf="control.errors.unmatchedPasswords">
         *كلمات السر غير متطابقة
     </div> 
     <div *ngIf="control.errors.fileExt">
-        * صور و pdf فقط
+* الملفات المدعومة هي الصور و .pdf و .docx و .xlsx
     </div> 
     <div *ngIf="control.errors.fileSize">
         * حجم الملف أكبر من 1MB
     </div> 
     <div *ngIf="control.errors.pattern?.requiredPattern == numericalRegex">
         * أرقام فقط
+    </div>
+
+    <div *ngIf="control.errors.pattern?.requiredPattern == passwordRegex">
+ *كلمة السر يجب ان تحتوي على حروف لاتينية صغيرة و كبيرة و أرقام و رموز مميزة
     </div>
 </div>

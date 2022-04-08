@@ -16,8 +16,8 @@ export class SignUpComponent implements OnInit {
     department: new FormControl('', [Validators.required]),
     user_role: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-    confirm_password: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required, Validators.pattern(/^.(?=.*[a-z])(?=.*[0-9])(?=.*[~!@#$%^&*()_-]).*$/), Validators.minLength(8)]),
+    confirm_password: new FormControl('', [Validators.required, Validators.pattern(/^.(?=.*[a-z])(?=.*[0-9])(?=.*[~!@#$%^&*()_-]).*$/), Validators.minLength(8)]),
     is_activated: new FormControl(true),
   }, { validators: this.matchingPasswords() });
   submitLoading = false;

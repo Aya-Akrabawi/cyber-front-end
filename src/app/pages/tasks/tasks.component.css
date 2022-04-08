@@ -2,3 +2,41 @@
     max-width: 200px;
     margin-bottom: 20px;
 }
+textarea.form-control {
+    min-width: 100%;
+}
+
+/* color map */
+.color-map {
+    max-width: 400px;
+    border-radius: 8px;
+    background-color: #EEE;
+    padding: 10px;
+    margin-right: 48px;
+}
+.color-div {
+    display: flex;
+    align-items: center;
+}
+.color {
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    margin-left: 10px;
+}
+.task {
+    background-color: rgba(102, 119, 137, 1);
+}
+.employee {
+    background-color: rgba(114, 139, 164, 1);
+}
+.manager {
+    background-color: rgba(130, 171, 212, 1);
+}
+.ext_aut {
+    background-color: rgba(179, 212, 246, 1);
+}
+.int_aut {
+    background-color: #EEE;
+    border: 1px solid ;
+}

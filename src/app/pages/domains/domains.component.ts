@@ -25,8 +25,7 @@ export class DomainsComponent implements OnInit {
     this.errorApi = false;
     this.loading = true;
     this.domains = [];
-    const headers = new HttpHeaders({ Authorization: 'Bearer ' + localStorage.getItem('tokenMNQ') });
-    this.http.getReq(`/domains/getAllDomains/${page}`, {headers}).subscribe(res => {
+    this.http.getReq(`/domains/getAllDomains/${page}`).subscribe(res => {
       this.domains = res.domains.data;
       this.total = res.domains.count
       this.loading = false;

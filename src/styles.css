@@ -52,3 +52,16 @@ label {
 .ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled):hover a {
     color: #ededed;
 }
+/* special styles for tasks table */
+.task-info {
+    background-color: rgba(102, 119, 137, 0.7);
+}
+.employee-cols {
+    background-color: rgba(114, 139, 164, 0.7);
+}
+.manager-cols {
+    background-color: rgba(130, 171, 212, 0.7);
+}
+.ext_aut-cols {
+    background-color: rgba(179, 212, 246, 1);
+}

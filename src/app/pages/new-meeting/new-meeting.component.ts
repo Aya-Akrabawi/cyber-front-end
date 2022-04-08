@@ -21,7 +21,6 @@ export class NewMeetingComponent implements OnInit {
   });
   submitLoading = false;
   today = (new Date()).toISOString().split('T')[0];
-
   users: any = [];
   dropdownSettings:IDropdownSettings = {
     singleSelection: false,
@@ -41,7 +40,7 @@ export class NewMeetingComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getUsers()
+    this.getUsers();
   }
 
   minDate(): ValidatorFn {
@@ -69,7 +68,11 @@ export class NewMeetingComponent implements OnInit {
     }
     this.submitLoading = true;
     if(this.meetingForm.value['notified_users_array']) {
-      const notifiedUserIds = this.meetingForm.value['notified_users_array'].map((selectedUser: any) => selectedUser.user_id)
+      const notifiedUserIds = this.meetingForm.value['notified_users_array'].map((selectedUser: any) => selectedUser.user_id);      
+      const currentUserId = localStorage.getItem('userIDMNQ');
+      if(currentUserId && notifiedUserIds.indexOf(+currentUserId) === -1) {
+        notifiedUserIds.push(+currentUserId);
+      }
       this.meetingForm.controls.notified_users_id.setValue(notifiedUserIds.join(','));
     }
 

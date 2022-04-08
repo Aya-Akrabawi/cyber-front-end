@@ -41,7 +41,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userID: string = '';
   subscription!: Subscription;
   isProfileMenuOpen = false;
-  
+
+  typeUrls = {
+    'Meeting': 'meetings',
+    'Announcement': 'announcements',
+    'Issue': 'issues',
+    'Task': 'tasks'
+  }
   constructor(
     private http: HttpService,
     private router: Router
@@ -70,7 +76,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     })
   }
 
-  markAsRead() {
+  markAsRead(index: number) {
+    this.notifications[index].is_read = true;
     // this.http.postReq()
   }
 

@@ -26,7 +26,7 @@
             <label>
                 مرفق
             </label>
-            <input type="file" [size]="size" [allowedExt]="extensions" accept="image/*, pdf" class="form-control"  
+            <input type="file" [size]="size" [allowedExt]="extensions" accept="image/*, .pdf, .docx, .xlsx, .xls" class="form-control"  
             [formControl]="toControl(announcementForm.controls['announcement_attachment_beforeConvert'])" (change)="fileConvert($event)" >
             <app-form-errors [control]="announcementForm.controls['announcement_attachment_beforeConvert']"></app-form-errors>
         </div>
