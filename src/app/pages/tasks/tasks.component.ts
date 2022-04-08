@@ -58,10 +58,10 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   getTasks(page = 0) {
-    // const apiUlr = this.employeeId ? `/tasks/getAllTasksForUser/${this.employeeId}` : `/tasks/getAllTasks/${page}`;
-    // this.loading = true;
-    // this.http.getReq(apiUlr).subscribe(res => {
-    this.httpClient.get('/assets/data.json').subscribe((res: any) => {
+    const apiUlr = this.employeeId ? `/tasks/getAllTasksForUser/${this.employeeId}` : `/tasks/getAllTasks/${page}`;
+    this.loading = true;
+    this.http.getReq(apiUlr).subscribe(res => {
+    // this.httpClient.get('/assets/data.json').subscribe((res: any) => {
       if (this.employeeId) {
         this.rows = res?.tasks.data;
         this.count = res.tasks.count;
