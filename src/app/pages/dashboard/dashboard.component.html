@@ -1,5 +1,146 @@
-<section class="d-flex flex-wrap justify-content-center">
-    <div class="chart">
-        <google-chart [data]="pieChart"></google-chart>
+<section class="p-4">
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" (activeIdChange)="getTabData($event)" class="nav-tabs">
+        <li [ngbNavItem]="1">
+            <a ngbNavLink>
+                ملخص نتائج تقييم مستوى التطبيق (للموظف)
+            </a>
+            <ng-template ngbNavContent>
+                <div *ngFor="let chart of chartsArrEmployee"
+                    class="table-chart-container d-flex flex-wrap justify-content-evenly">
+                    <h4 class="mb-4">
+                        {{chart?.options?.title}}
+                    </h4>
+                    <table class="table">
+                        <thead class="text-center">الحالة</thead>
+                        <tbody>
+                            <tr *ngFor="let item of chart.dataTable ; let first = first;">
+                                <ng-container *ngIf="!first">
+
+                                    <td>
+                                        {{ item[0]}}
+                                    </td>
+                                    <td>
+                                        {{item[1]}}
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="chart">
+                        <google-chart [data]="chart"></google-chart>
+                    </div>
+                </div>
+            </ng-template>
+        </li>
+        <li [ngbNavItem]="2">
+            <a ngbNavLink>
+                ملخص نتائج تقييم مستوى التطبيق (للمدقق الداخلي)
+            </a>
+            <ng-template ngbNavContent>
+                <div *ngFor="let chart of chartsArrIntAud"
+                    class="table-chart-container d-flex flex-wrap justify-content-evenly">
+                    <h4 class="mb-4">
+                        {{chart?.options?.title}}
+                    </h4>
+                    <table class="table">
+                        <thead class="text-center">الحالة</thead>
+                        <tbody>
+                            <tr *ngFor="let item of chart.dataTable ; let first = first;">
+                                <ng-container *ngIf="!first">
+
+                                    <td>
+                                        {{ item[0]}}
+                                    </td>
+                                    <td>
+                                        {{item[1]}}
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="chart">
+                        <google-chart [data]="chart"></google-chart>
+                    </div>
+                </div>
+            </ng-template>
+        </li>
+        <li [ngbNavItem]="3">
+            <a ngbNavLink>
+                ملخص نتائج تقييم مستوى التطبيق (للمدقق الخارجي)
+            </a>
+            <ng-template ngbNavContent>
+                <div *ngFor="let chart of chartsArrExtAud"
+                    class="table-chart-container d-flex flex-wrap justify-content-evenly">
+                    <h4 class="mb-4">
+                        {{chart?.options?.title}}
+                    </h4>
+                    <table class="table">
+                        <thead class="text-center">الحالة</thead>
+                        <tbody>
+                            <tr *ngFor="let item of chart.dataTable ; let first = first;">
+                                <ng-container *ngIf="!first">
+
+                                    <td>
+                                        {{ item[0]}}
+                                    </td>
+                                    <td>
+                                        {{item[1]}}
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="chart">
+                        <google-chart [data]="chart"></google-chart>
+                    </div>
+                </div>
+            </ng-template>
+        </li>
+        <li [ngbNavItem]="4">
+            <a ngbNavLink>
+                الدلائل
+            </a>
+            <ng-template ngbNavContent>
+                <div class="table-chart-container d-flex flex-wrap justify-content-evenly">
+                    <h4 class="mb-4">
+                        ملخص ما اذا تم ارفاق الملفات مع دليلها
+                    </h4>
+                    <table *ngIf="evidencesTableData['ملخص ما اذا تم ارفاق الملفات مع دليلها']" class="table evidences">
+                        <thead class="text-center">الحالة</thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of evidencesTableData['ملخص ما اذا تم ارفاق الملفات مع دليلها'][0] | keyvalue">
+
+                                <td>
+                                    {{item.key}}
+                                </td>
+                                <td>
+                                    {{item.value}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="chart">
+                        <google-chart [data]="evidencesChart"></google-chart>
+                    </div>
+                </div>
+            </ng-template>
+        </li>
+    </ul>
+
+    <div class="">
+        <div *ngIf="loading" class="text-center my-4">
+            <h1 class="loader text-center my-3">
+                <i class="fas fa-spinner fa-spin"></i>
+            </h1>
+        </div>
+        <div *ngIf="!loading && apiError" class="text-center my-5">
+            <p class="text-center text-danger my-3">
+                تعذر إحضار البيانات
+            </p>
+        </div>
+
+        <div *ngIf="!loading" [ngbNavOutlet]="nav" class="mt-2"></div>
+
     </div>
 </section>

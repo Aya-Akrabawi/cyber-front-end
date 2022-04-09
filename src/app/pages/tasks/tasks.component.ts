@@ -32,6 +32,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   personTypeNotes = '';
   personTypeNotesEng = '';
   personNote = '';
+  editing: any = {};
 
   constructor(
     private http: HttpService,
@@ -112,10 +113,12 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.rows[rowIndex][cell] = this.personNote;
     this.rows = [...this.rows];
   }
-  updateTask(taskId: string | number, index: number, cell:string) {
+  updateTask(taskId: string | number, index: number, cell:string, value = '') {
     this.http.putReq(`/tasks/update/${taskId}`, this.rows[index]).subscribe(res => {
       this.notificationService.success('', 'تم تعديل المهمة بنجاح  ');
-      this.updateValue(cell, index);
+      if (!value) {
+        this.updateValue(cell, index);
+      }
     }, err => {
       if (err.error) {
         this.notificationService.error('', err.error);
@@ -159,7 +162,18 @@ export class TasksComponent implements OnInit, OnDestroy {
     return {
       'task-info': column.prop === 'ar_sub_domain_name' || column.prop === 'ar_domain_name' || column.prop === 'task_name',
       'employee-cols' : column.prop === 'task_commitment' || column.prop === 'task_attachment' ||  column.prop === 'task_employee_notes' || column.prop === 'task_corrective_action',
-      'manager-cols' : column.prop === 'task_manager_notes' || column.prop === 'task_status' ||  column.prop === 'task_stage'
+      'manager-cols' : column.prop === 'task_manager_notes' || column.prop === 'task_status' ||  column.prop === 'task_stage',
+      'ext-aud-cols' : column.prop === 'task_commitment_by_external_auditor' || column.prop === 'task_corrective_action_by_external_auditor' ||  column.prop === 'task_attachment_by_external_auditor' || column.prop === 'task_external_auditor_notes' ,
+      'int-aud-cols' : column.prop === 'task_commitment_by_internal_auditor' || column.prop === 'task_corrective_action_by_internal_auditor' ||  column.prop === 'task_attachment_by_internal_auditor' || column.prop === 'task_internal_auditor_notes' ,
     };
   }
+  
+  updateStatusOStage(taskId: any, rowIndex: number, cell: string, event: any) {
+    this.editing[rowIndex + '-' + cell] = false;
+    let value = event.target.value; 
+    this.rows[rowIndex][cell] = value;
+    this.rows = [...this.rows];
+    this.updateTask(taskId, rowIndex, cell, value);
+  }
+
 }

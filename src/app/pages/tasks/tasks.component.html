@@ -9,13 +9,13 @@
     <div class="color-div">
         <div class="color employee"></div>
         <span class="color-description">
-                معلومات عبأها الموظف        
+            معلومات عبأها الموظف
         </span>
     </div>
     <div class="color-div">
         <div class="color manager"></div>
-       <span class="color-description">
-        معلومات تسند الى المدير
+        <span class="color-description">
+            معلومات تسند الى المدير
         </span>
     </div>
     <div class="color-div">
@@ -43,25 +43,32 @@
         [externalPaging]="true" [count]="count" [offset]="page" [limit]="10" (page)="setPage($event)"
         [rowClass]="getRowClass">
         <!-- TASKS INFO COLS -->
-        <ngx-datatable-column name="المكون الاساسي للضابط " [minWidth]="130" [maxWidth]="200" prop="ar_sub_domain_name" [cellClass]="getCellClass">
+        <ngx-datatable-column name="المكون الاساسي للضابط " [minWidth]="130" [maxWidth]="200" prop="ar_sub_domain_name"
+            [cellClass]="getCellClass">
         </ngx-datatable-column>
-        <ngx-datatable-column name="المكون الفرعي للضابط" [minWidth]="130" [maxWidth]="200" prop="ar_domain_name" [cellClass]="getCellClass">
+        <ngx-datatable-column name="المكون الفرعي للضابط" [minWidth]="130" [maxWidth]="200" prop="ar_domain_name"
+            [cellClass]="getCellClass">
         </ngx-datatable-column>
-        <ngx-datatable-column name="عنوان المهمة" [canAutoResize]="true" prop="task_name" [cellClass]="getCellClass"></ngx-datatable-column>
+        <ngx-datatable-column name="عنوان المهمة" [canAutoResize]="true" prop="task_name" [cellClass]="getCellClass">
+        </ngx-datatable-column>
         <!-- EMPLOYEE COLS -->
-        <ngx-datatable-column name="مستوى الالتزام " [canAutoResize]="true" prop="task_commitment" [cellClass]="getCellClass">
+        <ngx-datatable-column name="مستوى الالتزام " [canAutoResize]="true" prop="task_commitment"
+            [cellClass]="getCellClass">
         </ngx-datatable-column>
-        <ngx-datatable-column name="إجراءات التصحيح" [canAutoResize]="true" prop="task_corrective_action" [cellClass]="getCellClass">
+        <ngx-datatable-column name="إجراءات التصحيح" [canAutoResize]="true" prop="task_corrective_action"
+            [cellClass]="getCellClass">
         </ngx-datatable-column>
-        <ngx-datatable-column name="المرفق" [canAutoResize]="true" prop="task_attachment" [cellClass]="getCellClass"></ngx-datatable-column>
-        <ngx-datatable-column name="ملاحظات الموظف  " [canAutoResize]="true" prop="task_employee_notes" [cellClass]="getCellClass">
+        <ngx-datatable-column name="المرفق" [canAutoResize]="true" prop="task_attachment" [cellClass]="getCellClass">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="ملاحظات الموظف  " [canAutoResize]="true" prop="task_employee_notes"
+            [cellClass]="getCellClass">
         </ngx-datatable-column>
 
         <!-- MANAGER COLS -->
-        <ngx-datatable-column name="ملاحظات المدير " [canAutoResize]="true" prop="task_manager_notes" [cellClass]="getCellClass">
+        <ngx-datatable-column name="ملاحظات المدير " [canAutoResize]="true" prop="task_manager_notes"
+            [cellClass]="getCellClass">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                <span 
-                    (click)="open({
+                <span (click)="open({
                         content, 
                         personType: 'المدير', 
                         personTypeEng: 'manager', 
@@ -76,16 +83,63 @@
                 </span>
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="حالة المهمة" [canAutoResize]="true" prop="task_status" [cellClass]="getCellClass"></ngx-datatable-column>
-        <ngx-datatable-column name=" المرحلة" [canAutoResize]="true" prop="task_stage" [cellClass]="getCellClass"></ngx-datatable-column>
-        
+        <ngx-datatable-column name="حالة المهمة" [canAutoResize]="true" prop="task_status" [cellClass]="getCellClass">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                <span title="انقر للتعديل" (click)="userRole == 'manager' && editing[rowIndex + '-task_status'] = true"
+                    *ngIf="!editing[rowIndex + '-task_status']">
+                    {{ value }}
+                </span>
+                <select autofocus class="form-select" *ngIf="editing[rowIndex + '-task_status']"
+                    (blur)="updateStatusOStage(row['task_id'], rowIndex, row['task_status'], $event)">
+                    <option selected disabled hidden>يرجى تحديد الحالة؟</option>
+                    <option value="موافق عليه">
+                        موافق عليه
+                    </option>
+                    <option value="مرفوض">
+                        مرفوض
+                    </option>
+                    <option value="ملغي"> ملغي </option>
+                    <option value="عدم المطابقة"> 
+                        عدم المطابقة 
+                    </option>
+                    <option value="لا يوجد دليل"> لا يوجد دليل </option>
+                    <option value="مسودة"> مسودة </option>
+                    <option value="مكتمل"> مكتمل </option>
+                    <option value="متأخر"> متأخر </option>
+                    <option value="لم يتم الرفع">
+                        لم يتم الرفع
+                    </option>
+                    <option value="استثناء"> استثناء </option>
+                </select>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name=" المرحلة" [canAutoResize]="true" prop="task_stage" [cellClass]="getCellClass">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                <span title="انقر للتعديل" (click)="userRole == 'manager' && editing[rowIndex + '-task_stage'] = true"
+                    *ngIf="!editing[rowIndex + '-task_stage']">
+                    {{ value }}
+                </span>
+                <select autofocus class="form-select" *ngIf="editing[rowIndex + '-task_stage']"
+                    (blur)="updateStatusOStage(row['task_id'], rowIndex, row['task_stage'], $event)">
+                    <option selected disabled hidden>يرجى تحديد المرحلة</option>
+                    <option value="تحت التنفيذ">تحت التنفيذ</option>
+                    <option value="تحت المراجعه">تحت المراجعه</option>
+                    <option value="تحت التدقيق">تحت التدقيق</option>
+                </select>
+            </ng-template>
+        </ngx-datatable-column>
+
         <!-- EXTERNAL AUDITOR COLS -->
-        <ngx-datatable-column name="مستوى الالتزام " [canAutoResize]="true" prop="task_commitment_by_auditor" [cellClass]="getCellClass">
+        <ngx-datatable-column name="مستوى الالتزام " [canAutoResize]="true" prop="task_commitment_by_external_auditor"
+            [cellClass]="getCellClass">
         </ngx-datatable-column>
-        <ngx-datatable-column name="إجراءات التصحيح" [canAutoResize]="true" prop="task_corrective_action_by_auditor" [cellClass]="getCellClass">
+        <ngx-datatable-column name="إجراءات التصحيح" [canAutoResize]="true"
+            prop="task_corrective_action_by_external_auditor" [cellClass]="getCellClass">
         </ngx-datatable-column>
-        <ngx-datatable-column name="المرفق" [canAutoResize]="true" prop="task_attachment_by_auditor" [cellClass]="getCellClass"></ngx-datatable-column>
-        <ngx-datatable-column name=" ملاحظات المدقق  " [canAutoResize]="true" prop="task_auditor_notes" [cellClass]="getCellClass">
+        <ngx-datatable-column name="المرفق" [canAutoResize]="true" prop="task_attachment_by_external_auditor"
+            [cellClass]="getCellClass"></ngx-datatable-column>
+        <ngx-datatable-column name=" ملاحظات المدقق  " [canAutoResize]="true" prop="task_external_auditor_notes"
+            [cellClass]="getCellClass">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                 <span (click)="open({
                     content, 
@@ -103,12 +157,16 @@
             </ng-template>
         </ngx-datatable-column>
         <!-- INTERNAL AUDITOR COLS -->
-        <ngx-datatable-column name="مستوى الالتزام " [canAutoResize]="true" prop="task_commitment_by_auditor" [cellClass]="getCellClass">
+        <ngx-datatable-column name="مستوى الالتزام " [canAutoResize]="true" prop="task_commitment_by_internal_auditor"
+            [cellClass]="getCellClass">
         </ngx-datatable-column>
-        <ngx-datatable-column name="إجراءات التصحيح" [canAutoResize]="true" prop="task_corrective_action_by_auditor" [cellClass]="getCellClass">
+        <ngx-datatable-column name="إجراءات التصحيح" [canAutoResize]="true"
+            prop="task_corrective_action_by_internal_auditor" [cellClass]="getCellClass">
         </ngx-datatable-column>
-        <ngx-datatable-column name="المرفق" [canAutoResize]="true" prop="task_attachment_by_auditor" [cellClass]="getCellClass"></ngx-datatable-column>
-        <ngx-datatable-column name=" ملاحظات المدقق  " [canAutoResize]="true" prop="task_auditor_notes" [cellClass]="getCellClass">
+        <ngx-datatable-column name="المرفق" [canAutoResize]="true" prop="task_attachment_by_internal_auditor"
+            [cellClass]="getCellClass"></ngx-datatable-column>
+        <ngx-datatable-column name=" ملاحظات المدقق  " [canAutoResize]="true" prop="task_internal_auditor_notes"
+            [cellClass]="getCellClass">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                 <span (click)="open({
                     content, 
@@ -126,7 +184,7 @@
             </ng-template>
         </ngx-datatable-column>
 
-       
+
         <ngx-datatable-column name=" تاريخ الالتزام المتوقع" [canAutoResize]="true"
             prop="task_commitment_expected_date">
             <ng-template let-value="value" ngx-datatable-cell-template>
@@ -158,7 +216,8 @@
         <!-- <ngx-datatable-column name=" المدقق الداخلي" [canAutoResize]="true" prop="task_internal_auditor_id"></ngx-datatable-column> -->
         <!-- <ngx-datatable-column name="الدقق الخارجي " [canAutoResize]="true" prop="task_external_auditor_id"></ngx-datatable-column> -->
         <ngx-datatable-column *ngIf="userRole == 'employee'" name="">
-            <ng-template let-value="value" let-row="row" ngx-datatable-cell-template *ngIf="userID === rows['task_assigned_user_id']" >
+            <ng-template let-value="value" let-row="row" ngx-datatable-cell-template
+                *ngIf="userID === rows['task_assigned_user_id']">
                 <a [routerLink]="['/submit-task', row.task_id]" class="btn btn-primary">
                     تعديل
                 </a>
@@ -180,13 +239,15 @@
                     {{personNote}}
                 </p>
                 <div id="note-input" class="d-none">
-                    <textarea class="form-control" [(ngModel)]="personNote" [ngModelOptions]="{standalone: true}"></textarea>
+                    <textarea class="form-control" [(ngModel)]="personNote"
+                        [ngModelOptions]="{standalone: true}"></textarea>
                 </div>
             </div>
         </form>
     </div>
     <div *ngIf="userRole == personTypeNotesEng && userID === personTypeID" class="modal-footer">
         <button type="button" class="btn btn-outline-dark" id="edit-note-btn" (click)="showOrHideEdit()">تعديل</button>
-        <button type="button" class="btn btn-primary d-none" id="save-note-btn" (click)="modal.close('Save click')">حفظ</button>
+        <button type="button" class="btn btn-primary d-none" id="save-note-btn"
+            (click)="modal.close('Save click')">حفظ</button>
     </div>
 </ng-template>

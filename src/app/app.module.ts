@@ -80,7 +80,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     BrowserAnimationsModule,
     NgMultiSelectDropDownModule.forRoot(),
     FileInputAccessorModule,
-    Ng2GoogleChartsModule
+    Ng2GoogleChartsModule,
+    // CsvModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
