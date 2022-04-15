@@ -21,7 +21,7 @@
                             عرض الدلائل و المتطلبات
                         </a>
                     </li>
-                    <ng-container *ngIf="userRole == 'employee'">
+                    <ng-container *ngIf="userService.userRole == 'employee'">
 
                         <li ngbDropdownItem>
                             <a class="dropdown-item" [routerLink]="['/new-prerequisite', subdomain.sub_domain_id]">

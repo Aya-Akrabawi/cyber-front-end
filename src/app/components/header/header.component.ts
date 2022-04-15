@@ -12,6 +12,7 @@ import {
 } from '@angular/animations';
 import localeAr from '@angular/common/locales/ar';
 import { registerLocaleData } from '@angular/common';
+import { UserService } from 'src/app/services/user.service';
 registerLocaleData(localeAr, 'ar');
 @Component({
   selector: 'app-header',
@@ -36,29 +37,29 @@ export class HeaderComponent implements OnInit, OnDestroy {
   notifications: any = [];
   total = 0;
   isNotificationsOpen = false;
-  authUser = false;
-  userRole: string = '';
-  userID: string = '';
   subscription!: Subscription;
   isProfileMenuOpen = false;
 
-  typeUrls = {
+  typeUrls: any = {
     'Meeting': 'meetings',
     'Announcement': 'announcements',
     'Issue': 'issues',
     'Task': 'tasks'
   }
+  isUnreadNotification = false;
+
   constructor(
     private http: HttpService,
-    private router: Router
+    private router: Router,
+    public userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.subscription = this.router.events.pipe(filter(event => event instanceof NavigationStart))
       .subscribe(() => {
         this.getNotifications();
-        this.userRole = localStorage.getItem('userRoleMNQ') || '';
-        this.userID = localStorage.getItem('userIDMNQ') || '';
+        this.isNotificationsOpen = false;
+        this.isProfileMenuOpen = false;
       });
   }
 
@@ -66,19 +67,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe()
   }
   getNotifications() {
-    this.authUser = true;
     this.http.getReq('/notifications/getAllNotificationsForUser').subscribe(res => {
-      this.notifications = res?.notifications.data;
+      this.notifications = res?.notifications.data?.slice(0,21);
       this.total = res?.notifications.count;
+      this.checkForUnreadNotifications()
     }, err => {
       this.notifications = [];
       this.total = 0;
     })
   }
 
-  markAsRead(index: number) {
-    this.notifications[index].is_read = true;
-    // this.http.postReq()
+  markAsRead(index: number, id: number) {
+    if (!this.notifications[index].is_read) {
+      this.notifications[index].is_read = true;
+      this.http.putReq(`/notifications/update/${id}`, this.notifications[index]).subscribe( res => {
+        // do nothing (no feedback for user is needed)
+      });
+     this.checkForUnreadNotifications()
+    }
+    this.router.navigate([this.typeUrls[this.notifications[index].notification_type]])
   }
 
   logout() {
@@ -86,5 +93,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     localStorage.removeItem('userRoleMNQ');
     localStorage.removeItem('userIDMNQ');
     this.router.navigate(['/sign-in'])
+  }
+
+  checkForUnreadNotifications() {
+    this.notifications.findIndex((el: any) => el.is_read == false) !== -1? this.isUnreadNotification = true : this.isUnreadNotification = false;
   }
 }

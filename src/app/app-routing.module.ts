@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { PreventExternalAuditorGuard } from './guards/prevent-external-auditor.guard';
 import { AnnouncementsComponent } from './pages/announcements/announcements.component';
+import { AuditorsTaskComponent } from './pages/auditors-task/auditors-task.component';
 import { ControlsComponent } from './pages/controls/controls.component';
 import { CreateAccountComponent } from './pages/create-account/create-account.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -58,12 +60,12 @@ const routes: Routes = [
   {
     path: 'tasks/new/:controlID',
     component: NewTaskComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PreventExternalAuditorGuard]
   },
   {
     path: 'tasks/:employeeId',
     component: TasksComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PreventExternalAuditorGuard]
   },
   {
     path: 'tasks',
@@ -73,42 +75,47 @@ const routes: Routes = [
   {
     path:'submit-task/:taskId',
     component: SubmitTaskComponent,
+    canActivate: [AuthGuard, PreventExternalAuditorGuard]
+  },
+  {
+    path:'auditor-task/:taskId/:auditorType',
+    component: AuditorsTaskComponent,
     canActivate: [AuthGuard]
   },
   {
     path: 'meetings',
     component: MeetingsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PreventExternalAuditorGuard]
   },
   {
     path: 'announcements',
     component: AnnouncementsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PreventExternalAuditorGuard]
   },
   {
     path: 'new-announcement',
     component: NewAnnouncementComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PreventExternalAuditorGuard]
   },
   {
     path: 'issues',
     component: IssuesComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PreventExternalAuditorGuard]
   },
   {
     path: 'new-issue',
     component: NewIssueComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PreventExternalAuditorGuard]
   },
   {
     path: 'new-prerequisite/:subDomainId',
     component: NewPrerequisiteComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PreventExternalAuditorGuard]
   },
   {
     path: 'new-evidence/:subDomainId',
     component: NewEvidenceComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PreventExternalAuditorGuard]
   },
   {
     path: 'evidences-prerequisites/:subDomainId',
@@ -118,12 +125,12 @@ const routes: Routes = [
   {
     path: 'new-meeting',
     component: NewMeetingComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PreventExternalAuditorGuard]
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, PreventExternalAuditorGuard]
   },
   { path: '**', redirectTo: 'domains' }
 ];

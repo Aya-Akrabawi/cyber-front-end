@@ -1,6 +1,5 @@
 .form-control {
-    max-width: 200px;
-    margin-bottom: 20px;
+    max-width: 250px;
 }
 textarea.form-control {
     min-width: 100%;

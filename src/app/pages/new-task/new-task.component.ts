@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-new-task',
@@ -38,7 +39,8 @@ export class NewTaskComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpService,
     private notificationService: NotificationsService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -47,7 +49,7 @@ export class NewTaskComponent implements OnInit {
       this.controlID = params.controlID;
       this.newTaskForm.controls.control_id.setValue(this.controlID);
     });
-    const managerId = localStorage.getItem('userIDMNQ')
+    const managerId = this.userService.userId;
     this.newTaskForm.controls.task_manager_id.setValue(managerId);
     this.getAuditors();
     this.getAllEmployees();

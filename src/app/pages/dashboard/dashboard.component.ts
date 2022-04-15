@@ -80,12 +80,10 @@ export class DashboardComponent implements OnInit {
             break;
 
           case tabNum === 4:
-            this.evidencesTableData = firstResp.dashboards;
-            console.log(Object.entries(secondResp.dashboards));
-            
+            this.evidencesTableData = firstResp.dashboards;            
             this.evidencesChart = {
               chartType: GoogleChartType.PieChart,
-              dataTable: [...Object.entries(secondResp.dashboards)],
+              dataTable: [['ملخص ما اذا تم ارفاق الملفات مع دليلها', ''],...Object.entries(secondResp.dashboards)],
             }
             break;
 

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsService } from 'angular2-notifications';
 import { HttpService } from 'src/app/services/http.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -25,11 +26,12 @@ export class SignInComponent implements OnInit {
     private http: HttpService,
     private modalService: NgbModal,
     private notificationService: NotificationsService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem('tokenMNQ')) {
+    if (this.userService.isAuthUser) {
       this.router.navigate(['/domains']);
     }
   }

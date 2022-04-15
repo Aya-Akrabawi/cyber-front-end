@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { HttpService } from 'src/app/services/http.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-new-meeting',
@@ -36,7 +37,8 @@ export class NewMeetingComponent implements OnInit {
   constructor(
     private http: HttpService,
     private notificationService: NotificationsService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -69,7 +71,7 @@ export class NewMeetingComponent implements OnInit {
     this.submitLoading = true;
     if(this.meetingForm.value['notified_users_array']) {
       const notifiedUserIds = this.meetingForm.value['notified_users_array'].map((selectedUser: any) => selectedUser.user_id);      
-      const currentUserId = localStorage.getItem('userIDMNQ');
+      const currentUserId = this.userService.userId;
       if(currentUserId && notifiedUserIds.indexOf(+currentUserId) === -1) {
         notifiedUserIds.push(+currentUserId);
       }

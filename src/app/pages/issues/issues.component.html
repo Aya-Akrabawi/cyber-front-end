@@ -7,7 +7,7 @@
 </div>
 
 <section *ngIf="!loading" class="px-5 py-4 controls-table">
-    <div *ngIf="userRole == 'employee'" class="my-4 text-start">
+    <div *ngIf="userService.userRole == 'employee'" class="my-4 text-start">
         <a [routerLink]="['/new-issue']" class="btn btn-primary">
             ابلاغ جديد
         </a>
@@ -31,8 +31,8 @@
         <ngx-datatable-column name="الملاحظات" prop="issue_notes" [minWidth]="130"></ngx-datatable-column>
         <ngx-datatable-column name="المرفقات" prop="issue_attachment" [minWidth]="130">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                <span (click)="saveByteArray(row.issue_name, value)"> 
-                    <img src="../../../assets/attach.png" alt="">
+                <span (click)="saveByteArray(row.issue_name, value.data)" *ngIf="value"> 
+                    <img class="attachment-icon" src="../../../assets/attach.png" alt="">
                 </span>
             </ng-template>
         </ngx-datatable-column>

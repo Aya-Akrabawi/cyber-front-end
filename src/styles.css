@@ -68,7 +68,10 @@ label {
 .int-aud-cols {
     background-color: rgba(238, 238, 238, 0.7);
 }
-
+.attachment-icon {
+    width: 25px;
+    cursor: pointer;
+}
 /* nav tabs */
 .nav-tabs .nav-item .nav-link {
     max-width: 200px;

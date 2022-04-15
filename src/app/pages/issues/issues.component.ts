@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-issues',
@@ -12,12 +13,10 @@ export class IssuesComponent implements OnInit {
   count = 0;
   rows = [];
   page = 0;
-  userRole = '';
 
-  constructor(private http: HttpService,) { }
+  constructor(private http: HttpService,public userService: UserService) { }
 
   ngOnInit(): void {
-    this.userRole = localStorage.getItem('userRoleMNQ') || '';
     this.getIssues();
   }
 
@@ -39,14 +38,15 @@ export class IssuesComponent implements OnInit {
   }
 
   saveByteArray(reportName: string, byte: any) {
-    console.log(byte);
+    // const base64String = btoa(String.fromCharCode(...new Uint8Array(byte)));
+    // console.log(base64String);
     
     var blob = new Blob([byte], { type: "image/png" });
     console.log(blob);
     
     var link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    var fileName = reportName;
+    var fileName = reportName + '.png';
     link.download = fileName;
     link.click();
   };

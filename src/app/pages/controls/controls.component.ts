@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-controls',
@@ -12,19 +13,20 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 export class ControlsComponent implements OnInit {
 
   @ViewChild(DatatableComponent, { static: false }) table!: DatatableComponent;
-  
+
   subDomainID = '';
   subscription!: Subscription;
   count = 0;
-  rows:any = [];
-  temp:any = [];
+  rows: any = [];
+  temp: any = [];
   loading = true;
   page = 0;
   isManager = false;
 
   constructor(
     private http: HttpService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -34,14 +36,14 @@ export class ControlsComponent implements OnInit {
         this.getControls();
       }
     })
-    this.isManager = localStorage.getItem('userRoleMNQ') === 'manager';
+    this.isManager = this.userService.userRole  === 'manager';
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
   getControls(page = 0) {
-    this.loading= true;
+    this.loading = true;
     this.http.getReq(`/controls/getAllControlsInSubDomain/${this.subDomainID}/${page}`).subscribe(res => {
       this.rows = res.controls.data;
       this.temp = this.rows;
@@ -61,23 +63,25 @@ export class ControlsComponent implements OnInit {
   updateFilter(event: any) {
     const val = event.target.value?.toLowerCase();
     if (val) {
-      
       // filter our data
-      const tempMainNum = this.temp.filter(function(d: any) {           
+      const tempMainNum = this.temp.filter(function (d: any) {
         return d.con_main_number?.toLowerCase().includes(val) || !val;
-      }); 
-      const tempSubNum = this.temp.filter(function(d: any) {   
+      });
+      const tempSubNum = this.temp.filter(function (d: any) {
         return d.con_sub_number?.toLowerCase().includes(val) || !val;
-      }); 
-      const tempSubName = this.temp.filter(function(d: any) {   
+      });
+      const tempSubName = this.temp.filter(function (d: any) {
         return d.con_name?.toLowerCase().includes(val) || !val;
-      }); 
+      });
       // update the rows
       this.rows = [...tempMainNum, ...tempSubNum, ...tempSubName];
       
-      this.count = this.rows.length;
-      // Whenever the filter changes, always go back to the first page
-      this.table.offset = 0;
+    } else {
+      this.rows = [...this.temp];
+      this.count = this.rows.count
     }
+    this.count = this.rows.length;
+    // Whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
   }
 }

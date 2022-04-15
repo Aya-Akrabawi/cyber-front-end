@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-subdomains',
@@ -19,17 +20,16 @@ export class SubdomainsComponent implements OnInit, OnDestroy {
   page = 0;
   pageSize = 10;
   total = 0;
-  userRole = '';
   
   constructor(
     private http: HttpService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public userService: UserService
   ) { }
   
   ngOnInit(): void {
     
     this.subscription = this.route.params.subscribe((params: any) => {
-      this.userRole = localStorage.getItem('userRoleMNQ') || '';
       this.domainId = params.domainId;
       this.domainName = params.domainName;
       

@@ -30,7 +30,7 @@
             <ngx-datatable-column name="حالة الدليل" [minWidth]="130" prop="evid_status">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                     <span title="انقر للتعديل"
-                        (click)="userRole == 'manager' && evidStatusEditing[rowIndex + '-evid_status'] = true"
+                        (click)="userService.userRole == 'manager' && evidStatusEditing[rowIndex + '-evid_status'] = true"
                         *ngIf="!evidStatusEditing[rowIndex + '-evid_status']">
                         {{ value }}
                     </span>
@@ -91,7 +91,7 @@
             <ngx-datatable-column name="حالة الطلب" [minWidth]="130" prop="prerequisite_status">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                     <span title="انقر للتعديل"
-                        (click)="userRole == 'manager' && preReqStatusEditing[rowIndex + '-prerequisite_status'] = true"
+                        (click)="userService.userRole == 'manager' && preReqStatusEditing[rowIndex + '-prerequisite_status'] = true"
                         *ngIf="!preReqStatusEditing[rowIndex + '-prerequisite_status']">
                         {{ value }}
                     </span>

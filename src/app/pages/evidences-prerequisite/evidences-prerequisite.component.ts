@@ -6,6 +6,7 @@ import localeAr from '@angular/common/locales/ar';
 import { registerLocaleData } from '@angular/common';
 registerLocaleData(localeAr, 'ar');
 import { NotificationsService } from 'angular2-notifications';
+import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-evidences-prerequisite',
   templateUrl: './evidences-prerequisite.component.html',
@@ -24,19 +25,18 @@ export class EvidencesPrerequisiteComponent implements OnInit {
   prerequisitesPage = 0;
   subDomainID = '';
   subscription!: Subscription;
-  userRole = '';
   preReqStatusEditing: any = {};
   evidStatusEditing: any = {};
 
   constructor(
     private http: HttpService,
     private route: ActivatedRoute,
-    private notificationService: NotificationsService
+    private notificationService: NotificationsService,
+    public userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.subscription = this.route.params.subscribe((params: any) => {
-      this.userRole = localStorage.getItem('userRoleMNQ') || '';
       this.subDomainID = params.subDomainId;
       if (this.subDomainID) {
         this.getEvidences();

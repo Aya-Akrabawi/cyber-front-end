@@ -34,7 +34,8 @@ import {FileInputAccessorModule} from "file-input-accessor";
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-
+import { CsvModule } from '@ctrl/ngx-csv';
+import { AuditorsTaskComponent } from './pages/auditors-task/auditors-task.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +61,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     EvidencesPrerequisiteComponent,
     NewMeetingComponent,
     DashboardComponent,
+    AuditorsTaskComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +83,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     NgMultiSelectDropDownModule.forRoot(),
     FileInputAccessorModule,
     Ng2GoogleChartsModule,
-    // CsvModule
+    CsvModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

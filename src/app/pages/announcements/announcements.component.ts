@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-announcements',
@@ -12,12 +13,10 @@ export class AnnouncementsComponent implements OnInit {
   page = 0;
   count = 0;
   rows = [];
-  userRole = '';
 
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService, public userService: UserService) { }
 
   ngOnInit(): void {
-    this.userRole = localStorage.getItem('userRoleMNQ') || '';
     this.getAnnouncements();
   }
 
