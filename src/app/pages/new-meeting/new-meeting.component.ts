@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -33,16 +34,25 @@ export class NewMeetingComponent implements OnInit {
     idField: 'user_id',
     textField: 'name',
   };
+  departments: any = [];
 
   constructor(
     private http: HttpService,
     private notificationService: NotificationsService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private httpClient: HttpClient,
   ) { }
 
   ngOnInit(): void {
     this.getUsers();
+    this.getDepartments();
+  }
+
+  getDepartments() {
+    this.httpClient.get('/assets/departments.json').subscribe(res => {
+      this.departments = res;
+    })
   }
 
   minDate(): ValidatorFn {
@@ -58,7 +68,7 @@ export class NewMeetingComponent implements OnInit {
 
     this.http.getReq('/users').subscribe(res => {
       const users = res;
-      this.users = users.map((el: any) => {return {...el, name: `${el.user_first_name} ${el.user_last_name} (${el.department})`}})
+      this.users = users.map((el: any) => {return {...el, name: `${el.user_first_name} ${el.user_last_name} (${el.department != 'Adminstration' ? this.departments[el.department] : 'Administration'})`}})
     }, err => {
       this.users = [];
     })

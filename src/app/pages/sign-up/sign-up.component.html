@@ -17,13 +17,9 @@
         <div class="input-container">
             <select formControlName="department" class="form-select">
                 <option value="" selected hidden disabled>القسم</option>
-                <option value="1">الشؤوون الادارية القانونية</option>
-                <option value="2">المراجعة الداخلية</option>
-                <option value="3">IT</option>
-                <option value="4">الموارد لبشرية</option>
-                <option value="5">الأمن و السلامة</option>
-                <option value="6">ادارة المستودعات</option>
-                <option value="7">ادارة الأمن السيبراني</option>
+                <ng-container *ngFor="let dept of departments | keyvalue">
+                    <option [value]="dept.key">{{dept.value}} </option>
+                </ng-container>
             </select>
             <app-form-errors [control]="signUpForm.controls['department']"></app-form-errors>
         </div>

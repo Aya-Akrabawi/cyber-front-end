@@ -34,6 +34,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   taskIdToBeEdited: string | number = ''
   personNote = '';
   editing: any = {};
+  departments: any = [];
 
   constructor(
     private http: HttpService,
@@ -52,11 +53,18 @@ export class TasksComponent implements OnInit, OnDestroy {
         this.userID = +userTempId;
       }
       this.getTasks();
-    })
+    });
+    this.getDepartments();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  getDepartments() {
+    this.httpClient.get('/assets/departments.json').subscribe(res => {
+      this.departments = res;
+    })
   }
 
   getTasks(page = 0) {
@@ -187,4 +195,15 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.updateTask(taskId, rowIndex, cell, value);
   }
 
+  saveByteArray(reportName: string, fileBits: any) {
+    // const base64String = btoa(String.fromCharCode(...new Uint8Array(byte)));
+    // console.log(base64String);
+    
+    var link = document.createElement('a');
+    link.href = fileBits;
+    var fileName = reportName + '.png';
+    link.download = fileName;
+    link.click();
+  };
+  
 }

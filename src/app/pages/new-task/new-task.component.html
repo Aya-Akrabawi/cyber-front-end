@@ -50,7 +50,7 @@
             </label>
             <select  formControlName="task_internal_auditor_id" class="form-select">
                 <option value="" selected hidden disabled>اختر مدقق</option>
-                <option *ngFor="let auditor of internalAuditors" [value]="auditor?.internal_auditor_id">
+                <option *ngFor="let auditor of internalAuditors" [value]="auditor?.user_id">
                     {{auditor?.user_first_name}}
                 </option>
             </select>
@@ -62,7 +62,7 @@
             </label>
             <select formControlName="task_external_auditor_id" class="form-select">
                 <option value="" selected hidden disabled>اختر مدقق</option>
-                <option *ngFor="let auditor of externalAuditors" [value]="auditor?.external_auditor_id">
+                <option *ngFor="let auditor of externalAuditors" [value]="auditor?.user_id">
                     {{auditor?.user_first_name}}
                 </option>
             </select>
