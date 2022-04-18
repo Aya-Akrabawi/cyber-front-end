@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,12 +30,14 @@ export class NewEvidenceComponent implements OnInit, OnDestroy {
   managers: any = [];
   size = environment.fileSize
   extensions = environment.fileAllowedExt;
-  
+  departments: any = [];
+
   constructor(
     private http: HttpService,
     private router: Router,
     private notificationService: NotificationsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private httpClient: HttpClient,
   ) { }
 
   ngOnInit(): void {
@@ -42,6 +45,13 @@ export class NewEvidenceComponent implements OnInit, OnDestroy {
       this.subDomainId = params.subDomainId;
     })
     this.getManagers();
+    this.getDepartments();
+  }
+
+  getDepartments() {
+    this.httpClient.get('/assets/departments.json').subscribe(res => {
+      this.departments = res;
+    })
   }
 
   ngOnDestroy(): void {

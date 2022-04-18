@@ -65,7 +65,7 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="المرفق" [canAutoResize]="true" prop="task_attachment" [cellClass]="getCellClass">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                <span *ngIf="value"> 
+                <span (click)="saveByteArray(row.task_name, value.data)" *ngIf="value"> 
                     <img class="attachment-icon" src="../../../assets/attach.png" alt="">
                 </span>
             </ng-template>
@@ -154,7 +154,7 @@
                 </span>
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name=" ملاحظات المدقق  " [canAutoResize]="true" prop="task_external_auditor_notes"
+        <ngx-datatable-column name=" ملاحظات المدقق الخارجي " [canAutoResize]="true" prop="task_external_auditor_notes"
             [cellClass]="getCellClass">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                 <span (click)="open({
@@ -187,7 +187,7 @@
                 </span>
             </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name=" ملاحظات المدقق  " [canAutoResize]="true" prop="task_internal_auditor_notes"
+        <ngx-datatable-column name=" ملاحظات المدقق الداخلي " [canAutoResize]="true" prop="task_internal_auditor_notes"
             [cellClass]="getCellClass">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                 <span (click)="open({
@@ -234,6 +234,9 @@
             </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="القسم المسؤول" [canAutoResize]="true" prop="task_assigned_department">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{departments[value]}}
+            </ng-template>
         </ngx-datatable-column>
         <!-- <ngx-datatable-column name=" المدقق الداخلي" [canAutoResize]="true" prop="task_internal_auditor_id"></ngx-datatable-column> -->
         <!-- <ngx-datatable-column name="الدقق الخارجي " [canAutoResize]="true" prop="task_external_auditor_id"></ngx-datatable-column> -->

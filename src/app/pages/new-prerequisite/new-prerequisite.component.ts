@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,12 +25,14 @@ export class NewPrerequisiteComponent implements OnInit, OnDestroy {
   subscription!: Subscription;
   subDomainId = '';
   managers: any = [];
+  departments: any = [];
 
   constructor(
     private http : HttpService,
     private route: ActivatedRoute,
     private notificationService: NotificationsService,
-    private router: Router
+    private router: Router,
+    private httpClient: HttpClient,
   ) { }
 
   ngOnInit(): void {
@@ -37,10 +40,17 @@ export class NewPrerequisiteComponent implements OnInit, OnDestroy {
       this.subDomainId = params.subDomainId;
     });
     this.getManagers();
+    this.getDepartments();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
+  }
+
+  getDepartments() {
+    this.httpClient.get('/assets/departments.json').subscribe(res => {
+      this.departments = res;
+    })
   }
 
   getManagers() {

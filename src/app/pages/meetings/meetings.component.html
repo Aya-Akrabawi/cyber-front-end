@@ -14,12 +14,7 @@
     <ngx-datatable #table class="bootstrap ngx-datatable material"
         [rows]="rows" [rowHeight]="80" [columnMode]="'force'" 
         [scrollbarH]="true" [footerHeight]="50"
-        [messages]="{emptyMessage: 'لا يوجد بيانات'}"
-        [externalPaging]="true"
-        [count]="count"
-        [offset]="page"
-        [limit]="10"
-        (page)="setPage($event)">
+        [messages]="{emptyMessage: 'لا يوجد بيانات'}">
         <ngx-datatable-column name="العنوان" prop="meeting_title" [minWidth]="130"></ngx-datatable-column>
         <ngx-datatable-column name="الموضوع" prop="meeting_content" [minWidth]="130"></ngx-datatable-column>
         <ngx-datatable-column name=" التاريخ"  prop="meeting_happening_on_date" [minWidth]="130">
