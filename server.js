@@ -13,4 +13,4 @@ res.sendFile(path.join(__dirname+'/dist/MNQ/index.html'));
 });
 
 // Start the app by listening on the default Heroku port
-app.listen(process.env.PORT || 5050);
+app.listen(process.env.PORT || 8080);

@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HttpService {
 
-  baseURL = 'https://localhost:8080';
+  baseURL = environment.baseURL;
 
   constructor(private http: HttpClient) { }
 
