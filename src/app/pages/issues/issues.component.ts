@@ -37,15 +37,12 @@ export class IssuesComponent implements OnInit {
     this.getIssues(event.offset)
   }
 
-  saveByteArray(reportName: string, byte: any) {
+  saveByteArray(reportName: string, fileBits: any) {
     // const base64String = btoa(String.fromCharCode(...new Uint8Array(byte)));
     // console.log(base64String);
     
-    var blob = new Blob([byte], { type: "image/png" });
-    console.log(blob);
-    
     var link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
+    link.href = fileBits;
     var fileName = reportName + '.png';
     link.download = fileName;
     link.click();

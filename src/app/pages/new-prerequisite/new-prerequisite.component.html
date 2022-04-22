@@ -13,7 +13,7 @@
             <label>الشخص المعني في الجهة</label>
             <select formControlName="prerequisite_send_to" class="form-select">
                 <option *ngFor="let manager of managers" [value]="manager?.user_id">
-                    {{manager?.user_first_name}} - {{manager?.department}}
+                    {{manager?.user_first_name}} ({{departments[manager?.department]}})
                 </option>
             </select>
             <app-form-errors [control]="prerequisiteFrom.controls['prerequisite_send_to']"></app-form-errors>

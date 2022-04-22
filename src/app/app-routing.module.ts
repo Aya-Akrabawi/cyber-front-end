@@ -85,7 +85,7 @@ const routes: Routes = [
   {
     path: 'meetings',
     component: MeetingsComponent,
-    canActivate: [AuthGuard, PreventExternalAuditorGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'announcements',
@@ -125,12 +125,12 @@ const routes: Routes = [
   {
     path: 'new-meeting',
     component: NewMeetingComponent,
-    canActivate: [AuthGuard, PreventExternalAuditorGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [AuthGuard, PreventExternalAuditorGuard]
+    canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: 'domains' }
 ];

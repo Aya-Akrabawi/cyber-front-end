@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
@@ -20,14 +21,23 @@ export class CreateAccountComponent implements OnInit {
     is_activated: new FormControl(true),
     reason: new FormControl('createNewAccount'),
   });
+  departments: any = [];
+
   constructor(
     private http: HttpService,
+    private httpClient: HttpClient,
     private notificationService: NotificationsService,
   ) { }
 
   ngOnInit(): void {
+    this.getDepartments();
   }
 
+  getDepartments() {
+    this.httpClient.get('/assets/departments.json').subscribe(res => {
+      this.departments = res;
+    })
+  }
   onSubmit() {
     if (this.accountForm.invalid) {
       this.accountForm.markAllAsTouched();

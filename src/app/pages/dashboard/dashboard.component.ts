@@ -36,34 +36,40 @@ export class DashboardComponent implements OnInit {
     let chartsUrl = '';
     switch (true) {
       case tabNum === 1:
-        // mainChartUrl = '/dashboard/employee/all';
-        // chartsUrl = '/dashboard/employee';
-        mainChartUrl = '/assets/dashboard_employee_all.json';
-        chartsUrl = '/assets/employee.json';
+        mainChartUrl = '/dashboard/employee/all';
+        chartsUrl = '/dashboard/employee';
+        // mainChartUrl = '/assets/dashboard_employee_all.json';
+        // chartsUrl = '/assets/employee.json';
         break;
 
       case tabNum === 2:
-        mainChartUrl = '/assets/internal_auditor_all.json';
-        chartsUrl = '/assets/internal_auditor.json';
+        mainChartUrl = '/dashboard/internal_auditor/all';
+        chartsUrl = '/dashboard/internal_auditor';
+        // mainChartUrl = '/assets/internal_auditor_all.json';
+        // chartsUrl = '/assets/internal_auditor.json';
         break;
 
       case tabNum === 3:
-        mainChartUrl = '/assets/external_auditor_all.json';
-        chartsUrl = '/assets/external_auditor.json';
+        mainChartUrl = '/dashboard/external_auditor/all';
+        chartsUrl = '/dashboard/external_auditor';
+        // mainChartUrl = '/assets/external_auditor_all.json';
+        // chartsUrl = '/assets/external_auditor.json';
         break;
       case tabNum === 4:
-        mainChartUrl = '/assets/evidence_table_all.json';
-        chartsUrl = '/assets/evidence_chart_all.json';
+        mainChartUrl = '/dashboard/evidence/table/all';
+        chartsUrl = '/dashboard/evidence/chart/all';
+        // mainChartUrl = '/assets/evidence_table_all.json';
+        // chartsUrl = '/assets/evidence_chart_all.json';
         break;
 
       default:
         break;
     }
     zip(
-      this.httpClient.get(mainChartUrl),
-      this.httpClient.get(chartsUrl),
-      // this.http.getReq(mainChartUrl),
-      // this.http.getReq(chartsUrl),
+      // this.httpClient.get(mainChartUrl),
+      // this.httpClient.get(chartsUrl),
+      this.http.getReq(mainChartUrl),
+      this.http.getReq(chartsUrl),
     ).pipe(
       map(([firstResp, secondResp]: any) => {
         switch (true) {
@@ -115,7 +121,5 @@ export class DashboardComponent implements OnInit {
         options: { 'title': key },
       })
     });
-
-    console.log(arr);
   }
 }

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
@@ -21,13 +22,22 @@ export class SignUpComponent implements OnInit {
     is_activated: new FormControl(true),
   }, { validators: this.matchingPasswords() });
   submitLoading = false;
-
+  departments: any = [];
+  
   constructor(
     private http: HttpService,
     private notificationService: NotificationsService,
+    private httpClient: HttpClient,
     ) { }
 
   ngOnInit(): void {
+    this.getDepartments()
+  }
+
+  getDepartments() {
+    this.httpClient.get('/assets/departments.json').subscribe(res => {
+      this.departments = res;
+    })
   }
 
   onSubmit() {
