@@ -35,6 +35,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   personNote = '';
   editing: any = {};
   departments: any = [];
+  csvRows: any = [];
 
   constructor(
     private http: HttpService,
@@ -71,7 +72,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     const apiUlr = this.employeeId ? `/tasks/getAllTasksForUser/${this.employeeId}` : `/tasks/getAllTasks/${page}`;
     this.loading = true;
     this.http.getReq(apiUlr).subscribe(res => {
-      // this.httpClient.get('/assets/data.json').subscribe((res: any) => {
+      // this.httpClient.get('/assets/response.json').subscribe((res: any) => {
       if (this.employeeId) {
         this.rows = res?.tasks.data;
         this.count = res.tasks.count;
@@ -79,6 +80,7 @@ export class TasksComponent implements OnInit, OnDestroy {
         this.rows = res.data;
         this.count = res.count;
       }
+      this.csvDataFormat();
       this.temp = [...this.rows];
 
       if (this.rows.length == 0) {
@@ -126,15 +128,24 @@ export class TasksComponent implements OnInit, OnDestroy {
       this.rows = this.temp;
     }
     this.count = this.rows.length;
+    this.csvDataFormat();
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
   }
   updateValue(cell: string, rowIndex: number) {
     this.rows[rowIndex][cell] = this.personNote;
     this.rows = [...this.rows];
+    this.csvDataFormat();
   }
   updateTask(taskId: string | number, index: number, cell: string, value = '') {
-    this.http.putReq(`/tasks/update/${taskId}`, this.rows[index]).subscribe(res => {
+    let payload;
+    if (cell === 'task_manager_notes') {
+      payload = {...this.rows[index]};
+      payload[cell] = this.personNote;
+    } else {
+      payload = this.rows[index];
+    }
+    this.http.putReq(`/tasks/update/${taskId}`, payload).subscribe(res => {
       this.notificationService.success('', 'تم تعديل المهمة بنجاح  ');
       if (!value) {
         this.updateValue(cell, index);
@@ -182,8 +193,8 @@ export class TasksComponent implements OnInit, OnDestroy {
       'task-info': column.prop === 'ar_sub_domain_name' || column.prop === 'ar_domain_name' || column.prop === 'task_name',
       'employee-cols': column.prop === 'task_commitment' || column.prop === 'task_attachment' || column.prop === 'task_employee_notes' || column.prop === 'task_corrective_action',
       'manager-cols': column.prop === 'task_manager_notes' || column.prop === 'task_status' || column.prop === 'task_stage',
-      'ext-aud-cols': column.prop === 'task_commitment_by_external_auditor' || column.prop === 'task_corrective_action_by_external_auditor' || column.prop === 'task_attachment_by_external_auditor' || column.prop === 'task_external_auditor_notes',
-      'int-aud-cols': column.prop === 'task_commitment_by_internal_auditor' || column.prop === 'task_corrective_action_by_internal_auditor' || column.prop === 'task_attachment_by_internal_auditor' || column.prop === 'task_internal_auditor_notes',
+      'ext-aud-cols': column.prop === 'task_commitment_by_external_auditor' || column.prop === 'task_corrective_action_by_external_auditor' || column.prop === 'task_attachment_by_external_auditor' || column.prop === 'task_external_auditor_notes' || column.prop === 'task_external_auditor_status',
+      'int-aud-cols': column.prop === 'task_commitment_by_internal_auditor' || column.prop === 'task_corrective_action_by_internal_auditor' || column.prop === 'task_attachment_by_internal_auditor' || column.prop === 'task_internal_auditor_notes' || column.prop === 'task_internal_auditor_status',
     };
   }
 
@@ -206,4 +217,21 @@ export class TasksComponent implements OnInit, OnDestroy {
     link.click();
   };
   
+  csvDataFormat() {
+    this.csvRows = [];
+    this.rows.forEach((row: any, i: number) => {
+      this.csvRows.push({...row})
+      row['task_attachment'] ? this.csvRows[i]['task_attachment'] = 'موجود':  this.csvRows[i]['task_attachment'] = ' غير موجود'
+      row['task_attachment_by_external_auditor'] ? this.csvRows[i]['task_attachment_by_external_auditor'] = 'موجود':  this.csvRows[i]['task_attachment_by_external_auditor'] = 'غير موجود'
+      row['task_attachment_by_internal_auditor'] ? this.csvRows[i]['task_attachment_by_internal_auditor'] = 'موجود':  this.csvRows[i]['task_attachment_by_internal_auditor'] = 'غير موجود'
+      this.csvRows[i]['task_actual_audit_date'] = this.csvRows[i]['task_actual_audit_date']?.split('T')[0]; 
+      this.csvRows[i]['task_expected_start_date'] = this.csvRows[i]['task_expected_start_date']?.split('T')[0]; 
+      this.csvRows[i]['task_actual_end_date'] = this.csvRows[i]['task_actual_end_date']?.split('T')[0]; 
+      this.csvRows[i]['task_actual_start_date'] = this.csvRows[i]['task_actual_start_date']?.split('T')[0]; 
+      this.csvRows[i]['task_commitment_expected_date'] = this.csvRows[i]['task_commitment_expected_date']?.split('T')[0]; 
+      this.csvRows[i]['task_creation_date'] = this.csvRows[i]['task_creation_date']?.split('T')[0]; 
+      this.csvRows[i]['task_expected_end_date'] = this.csvRows[i]['task_expected_end_date']?.split('T')[0]; 
+      this.csvRows[i]['task_expected_audit_date'] = this.csvRows[i]['task_expected_audit_date']?.split('T')[0]; 
+    });    
+  }
 }

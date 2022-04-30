@@ -27,13 +27,9 @@
             <div class="input-container">
                 <select *ngIf="newTaskForm.controls.assignToType.value == 'department'" formControlName="task_assigned_department" class="form-select">
                     <option value="" selected hidden disabled>اختر القسم</option>
-                    <option value="1">الشؤوون الادارية القانونية</option>
-                    <option value="2">المراجعة الداخلية</option>
-                    <option value="3">IT</option>
-                    <option value="4">الموارد لبشرية</option>
-                    <option value="5">الأمن و السلامة</option>
-                    <option value="6">ادارة المستودعات</option>
-                    <option value="7">ادارة الأمن السيبراني</option>
+                    <ng-container *ngFor="let dept of departments | keyvalue">
+                        <option [value]="dept.key">{{dept.value}} </option>
+                    </ng-container>
                 </select>
                 <select *ngIf="newTaskForm.controls.assignToType.value == 'user'" formControlName="task_assigned_user_id" class="form-select">
                     <option value="" selected hidden disabled>اختر الشخص</option>
@@ -89,7 +85,7 @@
             <label>
                 تاريخ تدقيق المهمة
             </label>
-            <input type="date" [min]="today" class="form-control" formControlName="task_expected_audit_date">
+            <input type="date" [min]="newTaskForm.controls['task_expected_end_date'].value || today" class="form-control" formControlName="task_expected_audit_date">
             <app-form-errors [control]="newTaskForm.controls['task_expected_audit_date']"></app-form-errors>
         </div>
 
