@@ -31,9 +31,9 @@
         <ngx-datatable-column name="الملاحظات" prop="issue_notes" [minWidth]="130"></ngx-datatable-column>
         <ngx-datatable-column name="المرفقات" prop="uploaded_file" [minWidth]="130">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                <span (click)="download(value)" *ngIf="value"> 
+                <a [href]="attchmentUrl + value" [download]="attchmentUrl + value" target="_blank" *ngIf="value">
                     <img class="attachment-icon" src="../../../assets/attach.png" alt="">
-                </span>
+                </a>
             </ng-template>
         </ngx-datatable-column>
     </ngx-datatable>

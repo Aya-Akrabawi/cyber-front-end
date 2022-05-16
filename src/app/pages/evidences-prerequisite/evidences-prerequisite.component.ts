@@ -7,6 +7,7 @@ import { registerLocaleData } from '@angular/common';
 registerLocaleData(localeAr, 'ar');
 import { NotificationsService } from 'angular2-notifications';
 import { UserService } from 'src/app/services/user.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-evidences-prerequisite',
   templateUrl: './evidences-prerequisite.component.html',
@@ -27,6 +28,7 @@ export class EvidencesPrerequisiteComponent implements OnInit {
   subscription!: Subscription;
   preReqStatusEditing: any = {};
   evidStatusEditing: any = {};
+  attchmentUrl = environment.baseURL + '/attachments/';
 
   constructor(
     private http: HttpService,

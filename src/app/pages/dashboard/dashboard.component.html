@@ -126,6 +126,70 @@
                 </div>
             </ng-template>
         </li>
+        <li [ngbNavItem]="5">
+            <a ngbNavLink>
+                ملخص النتائج بالنسبة لحالة المهمة 
+            </a>
+            <ng-template ngbNavContent>
+                <div *ngFor="let chart of chartsArrStatus"
+                    class="table-chart-container d-flex flex-wrap justify-content-evenly">
+                    <h4 class="mb-4">
+                        {{chart?.options?.title}}
+                    </h4>
+                    <table class="table">
+                        <thead class="text-center">الحالة</thead>
+                        <tbody>
+                            <tr *ngFor="let item of chart.dataTable ; let first = first;">
+                                <ng-container *ngIf="!first">
+
+                                    <td>
+                                        {{ item[0]}}
+                                    </td>
+                                    <td>
+                                        {{item[1]}}
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="chart">
+                        <google-chart [data]="chart"></google-chart>
+                    </div>
+                </div>
+            </ng-template>
+        </li>
+        <li [ngbNavItem]="6">
+            <a ngbNavLink>
+                ملخص النتائج بالنسبة لمرحلة المهمة 
+            </a>
+            <ng-template ngbNavContent>
+                <div *ngFor="let chart of chartsArrStage"
+                    class="table-chart-container d-flex flex-wrap justify-content-evenly">
+                    <h4 class="mb-4">
+                        {{chart?.options?.title}}
+                    </h4>
+                    <table class="table">
+                        <thead class="text-center">الحالة</thead>
+                        <tbody>
+                            <tr *ngFor="let item of chart.dataTable ; let first = first;">
+                                <ng-container *ngIf="!first">
+
+                                    <td>
+                                        {{ item[0]}}
+                                    </td>
+                                    <td>
+                                        {{item[1]}}
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="chart">
+                        <google-chart [data]="chart"></google-chart>
+                    </div>
+                </div>
+            </ng-template>
+        </li>
     </ul>
 
     <div class="">

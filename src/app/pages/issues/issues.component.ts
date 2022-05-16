@@ -14,7 +14,8 @@ export class IssuesComponent implements OnInit {
   count = 0;
   rows = [];
   page = 0;
-  baseUrl = environment.baseURL;
+  attchmentUrl = environment.baseURL + '/attachments/';
+  
   constructor(private http: HttpService,public userService: UserService) { }
 
   ngOnInit(): void {
@@ -38,27 +39,4 @@ export class IssuesComponent implements OnInit {
     this.getIssues(event.offset)
   }
 
-  download(link: string) {
-    console.log("linkkkkkkk", link);
-    
-    var element = document.createElement('a');
-    element.setAttribute('href', this.baseUrl+ '/attachments/'+link);
-  
-    element.style.display = 'none';
-    document.body.appendChild(element);
-  
-    element.click();
-  
-    document.body.removeChild(element);
-  }
-  // saveByteArray(reportName: string, fileBits: any) {
-  //   // const base64String = btoa(String.fromCharCode(...new Uint8Array(byte)));
-  //   // console.log(base64String);
-    
-  //   var link = document.createElement('a');
-  //   link.href = fileBits;
-  //   var fileName = reportName + '.png';
-  //   link.download = fileName;
-  //   link.click();
-  // };
 }

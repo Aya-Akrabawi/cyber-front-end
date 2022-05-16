@@ -36,10 +36,7 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CsvModule } from '@ctrl/ngx-csv';
 import { AuditorsTaskComponent } from './pages/auditors-task/auditors-task.component';
-import { ToastrModule } from 'ngx-toastr';
-import { FormsModule } from '@angular/forms';
 import { FileUploadModule } from 'ng2-file-upload';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,9 +65,6 @@ import { FileUploadModule } from 'ng2-file-upload';
     AuditorsTaskComponent,
   ],
   imports: [
-    ToastrModule.forRoot(), // ToastrModule added
-    FormsModule,
-    FileUploadModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
@@ -90,7 +84,8 @@ import { FileUploadModule } from 'ng2-file-upload';
     NgMultiSelectDropDownModule.forRoot(),
     FileInputAccessorModule,
     Ng2GoogleChartsModule,
-    CsvModule
+    CsvModule,
+    FileUploadModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
