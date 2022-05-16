@@ -36,6 +36,10 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CsvModule } from '@ctrl/ngx-csv';
 import { AuditorsTaskComponent } from './pages/auditors-task/auditors-task.component';
+import { ToastrModule } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
+import { FileUploadModule } from 'ng2-file-upload';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,6 +68,9 @@ import { AuditorsTaskComponent } from './pages/auditors-task/auditors-task.compo
     AuditorsTaskComponent,
   ],
   imports: [
+    ToastrModule.forRoot(), // ToastrModule added
+    FormsModule,
+    FileUploadModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
