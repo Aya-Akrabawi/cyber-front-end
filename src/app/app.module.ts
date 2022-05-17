@@ -36,6 +36,7 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CsvModule } from '@ctrl/ngx-csv';
 import { AuditorsTaskComponent } from './pages/auditors-task/auditors-task.component';
+import { FileUploadModule } from 'ng2-file-upload';
 @NgModule({
   declarations: [
     AppComponent,
@@ -83,7 +84,8 @@ import { AuditorsTaskComponent } from './pages/auditors-task/auditors-task.compo
     NgMultiSelectDropDownModule.forRoot(),
     FileInputAccessorModule,
     Ng2GoogleChartsModule,
-    CsvModule
+    CsvModule,
+    FileUploadModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

@@ -41,6 +41,14 @@
                 <app-form-errors [control]="submitForm.controls['task_commitment']"></app-form-errors>
             </div>
             <div class="d-flex align-items-center input-container">
+                <label class="mr-3">حالة المهمة</label>
+                <select class="form-select" formControlName="task_status">
+                    <option value="تم التنفيذ">تم التنفيذ </option>
+                    <option value="لم يتم التنفيذ"> لم يتم التنفيذ </option>
+                </select>
+                <app-form-errors [control]="submitForm.controls['task_status']"></app-form-errors>
+            </div>
+            <div class="d-flex align-items-center input-container">
                 <label class="mr-3"> إجراءات التصحيح</label>
                 <input type="text" class="form-control" formControlName="task_corrective_action">
                 <app-form-errors [control]="submitForm.controls['task_corrective_action']"></app-form-errors>

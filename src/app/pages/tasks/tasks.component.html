@@ -39,7 +39,7 @@
 <section *ngIf="!loading" class="px-5 py-4 controls-table">
     <div class="d-flex justify-content-between mb-4">
         <input type="text" class="form-control" placeholder="  البحث في مستوى الإلتزام و اسم المكون الأساسي و الفرعي" (keyup)="updateFilter($event)" />
-        <a csvLink [data]="rows" class="btn btn-primary">
+        <a csvLink [data]="csvRows" class="btn btn-primary">
             تحميل الجدول
         </a>
     </div>
@@ -100,7 +100,7 @@
                     {{ value ? value : '-' }}
                 </span>
                 <select autofocus class="form-select" *ngIf="editing[rowIndex + '-task_status']"
-                    (blur)="updateStatusOStage(row['task_id'], rowIndex, row['task_status'], $event)">
+                    (blur)="updateStatusOStage(row['task_id'], rowIndex, 'task_status', $event)">
                     <option selected disabled hidden>يرجى تحديد الحالة؟</option>
                     <option value="موافق عليه">
                         موافق عليه
@@ -130,7 +130,7 @@
                     {{ value ? value : '-' }}
                 </span>
                 <select autofocus class="form-select" *ngIf="editing[rowIndex + '-task_stage']"
-                    (blur)="updateStatusOStage(row['task_id'], rowIndex, row['task_stage'], $event)">
+                    (blur)="updateStatusOStage(row['task_id'], rowIndex, 'task_stage', $event)">
                     <option selected disabled hidden>يرجى تحديد المرحلة</option>
                     <option value="تحت التنفيذ">تحت التنفيذ</option>
                     <option value="تحت المراجعه">تحت المراجعه</option>
@@ -145,6 +145,9 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="إجراءات التصحيح" [canAutoResize]="true"
             prop="task_corrective_action_by_external_auditor" [cellClass]="getCellClass">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="حالة المهمة" [canAutoResize]="true"
+            prop="task_external_auditor_status" [cellClass]="getCellClass">
         </ngx-datatable-column>
         <ngx-datatable-column name="المرفق" [canAutoResize]="true" prop="task_attachment_by_external_auditor"
             [cellClass]="getCellClass">
@@ -170,6 +173,9 @@
                     {{value? (value | slice:0:15) : '-'}}
                     <ng-container *ngIf="value.length > 15">...</ng-container>
                 </span>
+                <a [routerLink]="['/auditor-task', row['task_id'], 'external_auditor']">
+                    <img src="../../../assets/pencil.png" alt="">
+                </a>
             </ng-template>
         </ngx-datatable-column>
         <!-- INTERNAL AUDITOR COLS -->
@@ -178,6 +184,9 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="إجراءات التصحيح" [canAutoResize]="true"
             prop="task_corrective_action_by_internal_auditor" [cellClass]="getCellClass">
+        </ngx-datatable-column>
+        <ngx-datatable-column name="حالة المهمة" [canAutoResize]="true"
+            prop="task_internal_auditor_status" [cellClass]="getCellClass">
         </ngx-datatable-column>
         <ngx-datatable-column name="المرفق" [canAutoResize]="true" prop="task_attachment_by_internal_auditor"
             [cellClass]="getCellClass">
@@ -203,9 +212,11 @@
                     {{value? (value | slice:0:15) : '-'}}
                     <ng-container *ngIf="value.length > 15">...</ng-container>
                 </span>
+                <a [routerLink]="['/auditor-task', row['task_id'], 'internal_auditor']">
+                    <img src="../../../assets/pencil.png" alt="">
+                </a>
             </ng-template>
         </ngx-datatable-column>
-
 
         <ngx-datatable-column name=" تاريخ الالتزام المتوقع" [canAutoResize]="true"
             prop="task_commitment_expected_date">

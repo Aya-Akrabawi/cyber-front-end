@@ -68,7 +68,7 @@ export class NewMeetingComponent implements OnInit {
 
     this.http.getReq('/users').subscribe(res => {
       const users = res;
-      this.users = users.map((el: any) => {return {...el, name: `${el.user_first_name} ${el.user_last_name} (${el.department != 'Adminstration' ? this.departments[el.department] : 'Administration'})`}})
+      this.users = users.map((el: any) => {return {...el, name: `${el.user_first_name} ${el.user_last_name} (${el.department != 'administration' ? this.departments[el.department] : 'Administration'})`}})
     }, err => {
       this.users = [];
     })

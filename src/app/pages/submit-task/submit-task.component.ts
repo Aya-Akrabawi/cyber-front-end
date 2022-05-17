@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
+import { FileUploader } from 'ng2-file-upload';
 import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
 import { UserService } from 'src/app/services/user.service';
@@ -21,13 +22,18 @@ export class SubmitTaskComponent implements OnInit {
     task_commitment: new FormControl('', Validators.required),
     task_employee_notes: new FormControl('', Validators.required),
     task_corrective_action: new FormControl('', Validators.required),
-    task_attachment: new FormControl(''),
     task_attachment_beforeConvert: new FormControl(''),
   });
   submitLoading = false;
   loading = true;
   size = environment.fileSize
   extensions = environment.fileAllowedExt;
+  public uploader: FileUploader = new FileUploader({
+    url: `${environment.baseURL}/tasks/update/${this.taskId}`,
+    headers: [{ name: 'Authorization', value: `Bearer ${this.userService.token}` }],
+    itemAlias: 'uploaded_file',
+    queueLimit: 1,
+  });
   
   constructor(
     private route: ActivatedRoute,
@@ -43,6 +49,17 @@ export class SubmitTaskComponent implements OnInit {
       // this.getTasks();
       this.getTaskDetails();
     })
+    this.uploader.onBuildItemForm = (item, form) => {
+      const formValue = this.submitForm.value;
+      for (const key in formValue) {
+        form.append(key, formValue[key]);
+      }
+    };
+    this.uploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+    };
+    this.uploader.onErrorItem = (item, response, status, headers) => this.onApiError(response);
+    this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem();
   }
 
   ngOnDestroy(): void {
@@ -64,21 +81,34 @@ export class SubmitTaskComponent implements OnInit {
     })
   }
   onSubmit() {
-    console.log(this.submitForm);
     if (this.submitForm.invalid) {
       this.submitForm.markAllAsTouched();
       return
     }
     this.submitLoading = true;
 
-    this.http.putReq(`/tasks/update/${this.taskId}`, this.submitForm.value).subscribe(res => {
-      this.notificationService.success('', 'تم تعديل المهمة بنجاح');
-      this.submitLoading = false;
-      this.router.navigate(['/tasks', this.userService.userId]);
-    }, err => {
-      this.submitLoading = false;
-      this.notificationService.error('', err.error)
-    })
+    // this.http.putReq(`/tasks/update/${this.taskId}`, this.submitForm.value).subscribe(res => {
+    //   this.notificationService.success('', 'تم تعديل المهمة بنجاح');
+    //   this.submitLoading = false;
+    //   this.router.navigate(['/tasks', this.userService.userId]);
+    // }, err => {
+    //   this.submitLoading = false;
+    //   this.notificationService.error('', err.error)
+    // })
+  }
+  onSuccessItem() {
+    this.notificationService.success('', 'تم تعديل المهمة بنجاح');
+    this.submitLoading = false;
+    this.router.navigate(['/tasks', this.userService.userId]);
+  }
+  onApiError(err: any) {
+    this.submitLoading = false;
+    if(err.error) {
+      this.notificationService.error('', err.error);
+    } else {
+      this.notificationService.error('', 'حدث خطأ, يرجى إعادة المحاولة');
+
+    }
   }
 
   fileConvert(event: any) {

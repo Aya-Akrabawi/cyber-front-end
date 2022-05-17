@@ -38,8 +38,12 @@
             <label>
                  المرفق
             </label>
-            <input type="file" [size]="size" [allowedExt]="extensions" accept="image/*, .pdf, .docx, .xlsx, .xls" class="form-control"  
-            [formControl]="toControl(evidenceForm.controls['evid_attachment_beforeConvert'])" (change)="fileConvert($event)" >
+            <div id="fileSelector">
+                <input type="file" class="form-control" name="uploaded_file" [size]="size" [allowedExt]="extensions"
+                    accept="image/*, .pdf, .docx, .xlsx, .xls"
+                    [formControl]="toControl(evidenceForm.controls['evid_attachment_beforeConvert'])" id="fileUpload"
+                    ng2FileSelect [uploader]="uploader">
+            </div>
             <app-form-errors [control]="evidenceForm.controls['evid_attachment_beforeConvert']"></app-form-errors>
         </div>
         <div class="input-container">

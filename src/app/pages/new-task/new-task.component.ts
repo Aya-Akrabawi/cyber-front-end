@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -34,13 +35,15 @@ export class NewTaskComponent implements OnInit {
     task_manager_id: new FormControl(''),
   });
   employees: any = [];
+  departments: any = [];
   
   constructor(
     private route: ActivatedRoute,
     private http: HttpService,
     private notificationService: NotificationsService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private httpClient: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -53,6 +56,7 @@ export class NewTaskComponent implements OnInit {
     this.newTaskForm.controls.task_manager_id.setValue(managerId);
     this.getAuditors();
     this.getAllEmployees();
+    this.getDepartments();
   }
 
   ngOnDestroy(): void {
@@ -78,6 +82,11 @@ export class NewTaskComponent implements OnInit {
       this.employees = res;
     }, err => {
       this.employees = [];
+    })
+  }
+  getDepartments() {
+    this.httpClient.get('/assets/departments.json').subscribe(res => {
+      this.departments = res;
     })
   }
   onSubmit() {

@@ -54,6 +54,13 @@
             </ngx-datatable-column>
             <ngx-datatable-column name="الهاتف" [minWidth]="130" prop="evid_phone_no">
             </ngx-datatable-column>
+            <ngx-datatable-column name="المرفقات" prop="uploaded_file" [minWidth]="130">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                    <a [href]="attchmentUrl + value" [download]="attchmentUrl + value" target="_blank" *ngIf="value">
+                        <img class="attachment-icon" src="../../../assets/attach.png" alt="">
+                    </a>
+                </ng-template>
+            </ngx-datatable-column>
             <ngx-datatable-column name="الملاحظات" [minWidth]="130" prop="evid_notes">
             </ngx-datatable-column>
         </ngx-datatable>
@@ -115,6 +122,13 @@
             <ngx-datatable-column name="البريد الإلكتروني" [minWidth]="130" prop="prerequisite_email">
             </ngx-datatable-column>
             <ngx-datatable-column name="الهاتف" [minWidth]="130" prop="prerequisite_phone_no">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="المرفقات" prop="uploaded_file" [minWidth]="130">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                    <a [href]="attchmentUrl + value" [download]="attchmentUrl + value" target="_blank" *ngIf="value">
+                        <img class="attachment-icon" src="../../../assets/attach.png" alt="">
+                    </a>
+                </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="الملاحظات" [minWidth]="130" prop="prerequisite_notes">
             </ngx-datatable-column>

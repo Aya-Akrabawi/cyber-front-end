@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
 import { UserService } from 'src/app/services/user.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-issues',
@@ -13,7 +14,8 @@ export class IssuesComponent implements OnInit {
   count = 0;
   rows = [];
   page = 0;
-
+  attchmentUrl = environment.baseURL + '/attachments/';
+  
   constructor(private http: HttpService,public userService: UserService) { }
 
   ngOnInit(): void {
@@ -37,14 +39,4 @@ export class IssuesComponent implements OnInit {
     this.getIssues(event.offset)
   }
 
-  saveByteArray(reportName: string, fileBits: any) {
-    // const base64String = btoa(String.fromCharCode(...new Uint8Array(byte)));
-    // console.log(base64String);
-    
-    var link = document.createElement('a');
-    link.href = fileBits;
-    var fileName = reportName + '.png';
-    link.download = fileName;
-    link.click();
-  };
 }
